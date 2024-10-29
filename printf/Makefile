@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -g3# -fsanitize=address
 
-HEADER = libftprintf.h
+HEADER = ft_printf.h
 
 SRC = ft_printf.c ft_print_str.c ft_print_decimal.c ft_print_hexa.c ft_print_unsigned_decimal.c \
 

@@ -6,11 +6,11 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 22:20:07 by nberthal          #+#    #+#             */
-/*   Updated: 2024/10/28 03:02:37 by nberthal         ###   ########.fr       */
+/*   Updated: 2024/10/28 21:16:31 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static void	ft_putchar_fd(char c, int fd)
 {

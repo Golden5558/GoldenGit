@@ -6,11 +6,11 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 01:08:33 by nberthal          #+#    #+#             */
-/*   Updated: 2024/10/28 03:54:03 by nberthal         ###   ########.fr       */
+/*   Updated: 2024/10/29 03:15:38 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 #include <stdio.h>
 
 int	main(void)
@@ -62,7 +62,7 @@ int	main(void)
 	printf("printf :  ");
 	c = printf("%i\n", -2147483647);
 	printf("c == %i\n", c);
-	
+
 //		Test uhexa
 	ft_printf("Test uhexa :\n");
 	ft_printf("ft_printf :  ");
@@ -84,20 +84,20 @@ int	main(void)
 //		Test memory
 	ft_printf("Test memory :\n");
 	ft_printf("ft_printf :  ");
-	c = ft_printf("%p\n", &c);
+	c = ft_printf("%p\n", (void *)0);
 	ft_printf("c == %d\n", c);
 	printf("printf :  ");
-	c = printf("%p\n", &c);
+	c = printf("%p\n", (void *)0);
 	printf("c == %d\n", c);
 
 //		Test %%
 	ft_printf("Test %% :\n");
 	ft_printf("ft_printf :  ");
-	c = ft_printf("%");
-	ft_printf("c == %d\n", c);
+	c = ft_printf("%%   %");
+	ft_printf("\nc == %d\n", c);
 	printf("printf :  ");
-	c = printf("%");
-	printf("c == %d\n", c);
+	c = printf("%%   %  \t");
+	printf("\nc == %d\n", c);
 
 //		Test MIX
 	ft_printf("Test MIX :\n");

@@ -6,11 +6,11 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 22:20:35 by nberthal          #+#    #+#             */
-/*   Updated: 2024/10/28 03:02:11 by nberthal         ###   ########.fr       */
+/*   Updated: 2024/10/28 21:16:31 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static int	ft_getdec(unsigned int n)
 {

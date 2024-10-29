@@ -6,11 +6,11 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 22:15:47 by nberthal          #+#    #+#             */
-/*   Updated: 2024/10/28 03:02:09 by nberthal         ###   ########.fr       */
+/*   Updated: 2024/10/28 23:34:12 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static void	ft_putstr_fd(char *s, int fd)
 {
@@ -35,6 +35,8 @@ int	ft_print_str(va_list ap)
 	char	*str;
 
 	str = va_arg(ap, char *);
+	if (!str)
+		return (write(1, "(null)", 6));
 	ft_putstr_fd(str, 1);
 	return (ft_strlen(str));
 }
