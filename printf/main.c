@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 01:08:33 by nberthal          #+#    #+#             */
-/*   Updated: 2024/10/29 03:15:38 by nberthal         ###   ########.fr       */
+/*   Updated: 2024/11/01 15:08:19 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,27 @@ int	main(void)
 //		Test %%
 	ft_printf("Test %% :\n");
 	ft_printf("ft_printf :  ");
-	c = ft_printf("%%   %");
+	c = ft_printf("ffd   %   ");
 	ft_printf("\nc == %d\n", c);
 	printf("printf :  ");
-	c = printf("%%   %  \t");
+	c = printf("ffd   %   ");
 	printf("\nc == %d\n", c);
 
 //		Test MIX
 	ft_printf("Test MIX :\n");
 	ft_printf("ft_printf :  ");
-	c = ft_printf("%d   %s   %p\n", 58, "Testdsfsdf", &c);
+	c = ft_printf("%s   %d\n %", "Testdsfsdf", 58);
 	ft_printf("c == %d\n", c);
 	printf("printf :  ");
-	c = printf("%d   %s   %p\n", 58, "Testdsfsdf", &c);
+	c = printf("%s   %d\n %", "Testdsfsdf", 58);
+	printf("c == %d\n", c);
+
+//		Test MIX 2
+	ft_printf("Test MIX 2 :\n");
+	ft_printf("ft_printf :  ");
+	c = ft_printf(NULL, 58, "Testdsfsdf", &c);
+	ft_printf("c == %d\n", c);
+	printf("printf :  ");
+	c = printf(NULL, 58, "Testdsfsdf", &c);
 	printf("c == %d\n", c);
 }

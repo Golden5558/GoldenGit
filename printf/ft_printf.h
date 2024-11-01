@@ -17,10 +17,11 @@
 # include <unistd.h>
 
 int	ft_printf(const char *args, ...);
-int	ft_print_str(va_list ap);
-int	ft_print_decimal(va_list ap);
-int	ft_print_hexa(const char *args, va_list ap);
-int	ft_print_unsigned_decimal(va_list ap);
-int	ft_print_memory(va_list ap);
+int	ft_print_str(va_list ap, int *e);
+int	ft_print_decimal(va_list ap, int *e);
+int	ft_print_char(va_list ap, int *e);
+int	ft_print_hexa(const char *args, va_list ap, int *e);
+int	ft_print_unsigned_decimal(va_list ap, int *e);
+int	ft_print_memory(va_list ap, int *e);
 
 #endif

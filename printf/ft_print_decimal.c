@@ -6,16 +6,11 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 22:20:07 by nberthal          #+#    #+#             */
-/*   Updated: 2024/10/28 21:16:31 by nberthal         ###   ########.fr       */
+/*   Updated: 2024/11/01 14:44:44 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-static void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
 
 static int	ft_getdec(int n)
 {
@@ -32,33 +27,49 @@ static int	ft_getdec(int n)
 	return (i + 1);
 }
 
-void	ft_putnbr_fd(int n, int fd)
+static int	ft_putchar(int c)
+{
+	int	a;
+
+	a = write(1, &c, 1);
+	return (a);
+}
+
+void	ft_putnbr_fd(int n, int *e)
 {
 	if (n == -2147483648)
-		write(fd, "-2147483648", 11);
+	{
+		*e = write(1, "-2147483648", 11);
+		if (*e == -1)
+			return ;
+	}
+	else if (n < 0)
+	{
+		*e = write(1, "-", 1);
+		if (*e == -1)
+			return ;
+		n = -n;
+		ft_putnbr_fd(n, e);
+	}
+	else if (n >= 10)
+	{
+		ft_putnbr_fd(n / 10, e);
+		ft_putnbr_fd(n % 10, e);
+	}
 	else
 	{
-		if (n < 0)
-		{
-			write(fd, "-", 1);
-			n = -n;
-		}
-		if (n >= 10)
-		{
-			ft_putnbr_fd(n / 10, fd);
-			ft_putnbr_fd(n % 10, fd);
-		}
-		else
-			ft_putchar_fd(n + '0', fd);
+		*e = ft_putchar(n + '0');
+		if (*e == -1)
+			return ;
 	}
 }
 
-int	ft_print_decimal(va_list ap)
+int	ft_print_decimal(va_list ap, int *e)
 {
 	int	num;
 
 	num = va_arg(ap, int);
-	ft_putnbr_fd(num, 1);
+	ft_putnbr_fd(num, e);
 	if (num < 0)
 		return (ft_getdec(num) + 1);
 	else
