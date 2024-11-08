@@ -6,27 +6,27 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 06:32:00 by nberthal          #+#    #+#             */
-/*   Updated: 2024/11/06 05:35:15 by nberthal         ###   ########.fr       */
+/*   Updated: 2024/11/08 03:33:48 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	check_end_line(char *stock, int len_stock)
+static int	check_stock(t_list *list)
 {
 	int	i;
 
 	i = 0;
-	while (i < len_stock)
+	while (i < list->len_stock)
 	{
-		if (stock[i] == '\n' || stock[i] == '\0')
+		if (list->stock[i] == '\n')
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-static char	*extract_line(char *stock)
+static char	*extract_line(t_list *list)
 {
 	int		len_line;
 	int		i;
@@ -34,61 +34,92 @@ static char	*extract_line(char *stock)
 
 	len_line = 0;
 	i = 0;
-	while (stock[len_line] != '\n' && stock[len_line] != '\0')
+	while (list->stock[len_line] != '\n' && list->stock[len_line] != '\0')
+		len_line++;
+	if (list->stock[len_line] && list->stock[len_line] == '\n')
 		len_line++;
 	line = malloc(sizeof(char) * (len_line + 1));
 	if (!line)
 		return (NULL);
 	while (i < len_line)
 	{
-		line[i] = stock[i];
+		line[i] = list->stock[i];
 		i++;
 	}
 	line[i] = '\0';
-	free (stock);
+	free (list->stock);
 	return (line);
 }
 
-static void	clean_stock(char *stock, int len_stock, char *remnant)
+static void	clean_stock(t_list *list, char *remnant)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while ((stock[i] != '\n' && stock[i]) && i < len_stock)
+	while ((list->stock[i] != '\n' && list->stock[i]) && i < list->len_stock)
 		i++;
-	i++;
-	while (i <= len_stock + 1)
-		remnant[j++] = stock[i++];
+	if (list->stock[i] && list->stock[i] == '\n')
+		i++;
+	while (i <= list->len_stock)
+		remnant[j++] = list->stock[i++];
 	remnant[j] = '\0';
+}
+
+static int	read_line(int fd, t_list *list)
+{
+	list->buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!list->buffer)
+		return (1);
+	list->read_size = read(fd, list->buffer, BUFFER_SIZE);
+	if (list->read_size == -1)
+		return (free(list->stock), free(list->buffer), 1);
+	if (list->read_size == 0)
+		return (free(list->buffer), 0);
+	while (!check_stock(list) && list->read_size != 0)
+	{
+		if (list->i == 0)
+		{
+			list->buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+			if (!list->buffer)
+				return (1);
+			list->read_size = read(fd, list->buffer, BUFFER_SIZE);
+		}
+		if (list->read_size == -1)
+			return (free(list->stock), free(list->buffer), 1);
+		list->i = 0;
+		list->buffer[list->read_size] = '\0';
+		list->stock = ft_strjoin(list->stock, list->buffer);
+		list->len_stock = ft_strlen(list->stock);
+	}
+	return (0);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	remnant[BUFFER_SIZE + 1];
-	char		*stock;
-	char		*buffer;
-	int			check;
-	int			len_stock;
+	t_list		list;
 
-	stock = ft_strdup("");
-	len_stock = 0;
+	ft_memset(&list, 0, sizeof(t_list));
+	list.stock = ft_strdup("");
+	if (!list.stock)
+		return (NULL);
+	list.i = 1;
 	if (*remnant)
-		stock = ft_substr(remnant, 0, ft_strlen(remnant), stock);
-	len_stock += ft_strlen(stock);
-	while (!check_end_line(stock, len_stock))
 	{
-		buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!buffer)
-			return (NULL);
-		check = read(fd, buffer, BUFFER_SIZE);
-		if (check <= 0)
-			return (free(stock), free(buffer), NULL);
-		buffer[check] = '\0';
-		stock = ft_strjoin(stock, buffer);
-		len_stock += check;
+		list.stock = ft_substr(remnant, 0, ft_strlen(remnant), list.stock);
+		list.len_stock = ft_strlen(list.stock);
+		ft_memset(remnant, 0, BUFFER_SIZE + 1);
+		if (check_stock(&list))
+			return (clean_stock(&list, remnant), extract_line(&list));
 	}
-	clean_stock(stock, len_stock, remnant);
-	return (extract_line(stock));
+	if (read_line(fd, &list) == 1)
+		return (NULL);
+	if (list.len_stock > 0 && list.read_size == 0)
+		return (extract_line(&list));
+	else if (list.len_stock == 0 && list.read_size == 0)
+		return (free(list.stock), NULL);
+	clean_stock(&list, remnant);
+	return (extract_line(&list));
 }

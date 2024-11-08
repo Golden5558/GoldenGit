@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 06:35:16 by nberthal          #+#    #+#             */
-/*   Updated: 2024/11/06 05:35:53 by nberthal         ###   ########.fr       */
+/*   Updated: 2024/11/08 03:31:32 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,37 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-static size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	size_t	i;
-	size_t	j;
+	unsigned char	*s1;
+	unsigned char	d;
+	size_t			i;
 
+	d = (unsigned char)c;
 	i = 0;
-	j = 0;
-	while (src[j])
-		j++;
-	if (size < 1)
-		return (j);
-	while (i < (size - 1) && src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (j);
+	s1 = s;
+	while (i < n)
+		s1[i++] = d;
+	return (s);
 }
 
 char	*ft_strdup(const char *s)
 {
 	char	*s1;
 	size_t	i;
+	size_t	len_src;
 
-	i = ft_strlen(s) + 1;
-	s1 = (char *)malloc(sizeof(char) * i);
+	len_src = ft_strlen(s) + 1;
+	i = 0;
+	s1 = (char *)malloc(sizeof(char) * len_src);
 	if (!s1)
 		return (NULL);
-	ft_strlcpy(s1, s, i);
+	while (i < (len_src - 1) && s[i])
+	{
+		s1[i] = s[i];
+		i++;
+	}
+	s1[i] = '\0';
 	return (s1);
 }
 
