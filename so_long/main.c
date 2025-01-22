@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:50:04 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/21 01:30:52 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/22 02:53:13 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int32_t	main(int argc, char **argv)
 	if (argc != 2)
 		error_exit(1);
 	len_argv = ft_strlen(argv[1]);
-	if (len_argv < 4 || argv[1][len_argv - 1] != 'r' && argv[1][len_argv - 2]
+	if (len_argv < 4 && argv[1][len_argv - 1] != 'r' && argv[1][len_argv - 2]
 		!= 'e' && argv[1][len_argv - 3] != 'b' && argv[1][len_argv - 4] != '.')
 	{
 		write(1, "Error : Wrong extension\n", 23);

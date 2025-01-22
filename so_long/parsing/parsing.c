@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:42:16 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/20 23:42:04 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/22 02:53:38 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	get_lines_window(char *file)
 		return (-1);
 	check_read = read(fd, buffer, 1);
 	if (check_read <= 0)
-		return (-1);
+		return (free(buffer), -1);
 	while (buffer && check_read > 0)
 	{
 		check_read = read(fd, buffer, 1);
 		if (check_read < 0)
-			return (-1);
+			return (free(buffer), -1);
 		if (buffer[0] == '\n')
 			line++;
 	}
