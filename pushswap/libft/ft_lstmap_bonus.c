@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:52:05 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/16 00:58:20 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/22 03:56:14 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_pile	*ft_lstmap(t_pile *lst, int (*f)(int))
 	while (lst)
 	{
 		tmp2 = f(lst->content);
-		tmp = ft_lstnew(tmp2);
+		tmp = ft_lstnew(tmp2, 0);
 		if (!tmp)
 			return (ft_lstclear(&ret), NULL);
 		ft_lstadd_back(&ret, tmp);

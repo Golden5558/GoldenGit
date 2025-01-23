@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 02:31:15 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/17 09:07:14 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/23 04:47:23 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,38 @@ void	*ft_freeall(char **tab)
 	return (NULL);
 }
 
-void	print_pile(t_pile *pile)
+void	refresh_index(t_pile **pile)
 {
-	while (pile)
+	int		i;
+	t_pile	*tmp;
+
+	tmp = *pile;
+	i = 1;
+	if (!pile || !(*pile))
+		return ;
+	while (tmp)
 	{
-		ft_printf("%d", pile->content);
-		pile = pile->next;
+		tmp->index = i++;
+		tmp = tmp->next;
 	}
-	ft_printf("\n");
+}
+
+int	get_max_value(t_pile **pile)
+{
+	t_pile	*tmp;
+	int		max_value;
+
+	if (!pile || !(*pile))
+		return (0);
+	tmp = *pile;
+	max_value = tmp->content;
+	while (tmp)
+	{
+		if (tmp->content > max_value)
+		{
+			max_value = tmp->content;
+		}
+		tmp = tmp->next;
+	}
+	return (max_value);
 }

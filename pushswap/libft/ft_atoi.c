@@ -6,11 +6,11 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 20:41:06 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/16 06:08:19 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/23 04:24:10 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "limits.h"
+#include "libft.h"
 
 int	ft_atoi_verif(const char *nb, int *valid)
 {
@@ -38,5 +38,5 @@ int	ft_atoi_verif(const char *nb, int *valid)
 	}
 	if (nb[i] != '\0')
 		*valid = 0;
-	return (sign * result);
+	return ((int)(sign * result));
 }

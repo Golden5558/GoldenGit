@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:43:06 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/17 00:58:48 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/22 23:48:37 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 # define LIBFT_H
 
 # include <stdlib.h>
+# include <limits.h>
 # include <stdarg.h>
 # include <unistd.h>
 
 typedef struct s_pile
 {
 	int				content;
+	int				index;
+	int				op_cost;
+	int				target;
 	struct s_pile	*prev;
 	struct s_pile	*next;
 }	t_pile;
@@ -58,16 +62,19 @@ void	ft_putnbr_fd(int n, int fd);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, char *src, size_t size);
-t_pile	*ft_lstnew(int content);
+void	ft_putnbr_base(long long nbr, char *base);
+int		ft_printf(const char *args, ...)__attribute__((format(printf, 1, 2)));
+
+//	Lst functions :
+
+t_pile	*ft_lstnew(int content, int index);
+t_pile	*ft_lstlast(t_pile *lst);
+t_pile	*ft_lstmap(t_pile *lst, int (*f)(int));
+void	ft_lstadd_back(t_pile **lst, t_pile *new);
 void	ft_lstadd_front(t_pile **lst, t_pile *new);
 int		ft_lstsize(t_pile *lst);
-t_pile	*ft_lstlast(t_pile *lst);
-void	ft_lstadd_back(t_pile **lst, t_pile *new);
 void	ft_lstdelone(t_pile *lst);
 void	ft_lstclear(t_pile **lst);
 void	ft_lstiter(t_pile *lst, void (*f)(int));
-t_pile	*ft_lstmap(t_pile *lst, int (*f)(int));
-void	ft_putnbr_base(long long nbr, char *base);
-int		ft_printf(const char *args, ...)__attribute__((format(printf, 1, 2)));
 
 #endif

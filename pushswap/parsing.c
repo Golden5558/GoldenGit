@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 04:27:59 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/17 09:05:20 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/23 02:15:33 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ static int	fill_a(char **args, int *valid, t_pile **a)
 	i = 0;
 	while (args[i])
 	{
-		tmp = ft_lstnew(ft_atoi_verif(args[i++], valid));
-		if (!tmp)
-			return (ft_lstclear(a), 1);
+		tmp = ft_lstnew(ft_atoi_verif(args[i], valid), i + 1);
+		if (!tmp || *valid == 0)
+			return (ft_lstclear(&tmp), ft_lstclear(a), 1);
 		if (!(*a))
 			*a = tmp;
 		else
 			ft_lstadd_back(a, tmp);
+		i++;
 	}
 	return (0);
 }
@@ -63,7 +64,7 @@ void	check_input(char **args, t_pile **a)
 	if (fill_a(args, &valid, a) == 1)
 	{
 		ft_freeall(args);
-		error_exit("Error\n");
+		error_exit("Error : input invalid\n");
 	}
 	if (!(*a) || valid == 0)
 	{

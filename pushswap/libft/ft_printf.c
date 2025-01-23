@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 06:08:43 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/15 23:37:52 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/23 04:40:30 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,67 @@ static int	ft_getdec(int n, int base)
 	return (i + 1);
 }
 
+// static int	ft_print_num(char arg, va_list ap)
+// {
+// 	int			c;
+// 	long long	num;
+
+// 	num = va_arg(ap, long long);
+// 	c = 0;
+// 	if (ft_strchr("idu", arg))
+// 	{
+// 		ft_putnbr_base(num, "0123456789");
+// 		return (c = ft_getdec(num, 10), c);
+// 	}
+// 	else if (arg == 'p')
+// 	{
+// 		if (num == 0)
+// 			return (c = write(1, "(nil)", 5), c);
+// 		c += write(1, "0x", 2);
+// 		ft_putnbr_base(num, "0123456789abcdef");
+// 	}
+// 	else if (arg == 'x')
+// 		ft_putnbr_base(num, "0123456789abcdef");
+// 	else if (arg == 'X')
+// 		ft_putnbr_base(num, "0123456789ABCDEF");
+// 	return (c += ft_getdec(num, 16), c);
+// }
 static int	ft_print_num(char arg, va_list ap)
 {
-	int			c;
-	long long	num;
+    int c = 0;
 
-	num = va_arg(ap, long long);
-	c = 0;
-	if (ft_strchr("idu", arg))
-	{
-		ft_putnbr_base(num, "0123456789");
-		return (c = ft_getdec(num, 10), c);
-	}
-	else if (arg == 'p')
-	{
-		if (num == 0)
-			return (c = write(1, "(nil)", 5), c);
-		c += write(1, "0x", 2);
-		ft_putnbr_base(num, "0123456789abcdef");
-	}
-	else if (arg == 'x')
-		ft_putnbr_base(num, "0123456789abcdef");
-	else if (arg == 'X')
-		ft_putnbr_base(num, "0123456789ABCDEF");
-	return (c += ft_getdec(num, 16), c);
+    if (ft_strchr("di", arg))
+    {
+        int num = va_arg(ap, int);
+        ft_putnbr_base((long)num, "0123456789");
+        return (ft_getdec(num, 10));
+    }
+    else if (arg == 'u')
+    {
+        unsigned int unum = va_arg(ap, unsigned int);
+        ft_putnbr_base((unsigned long)unum, "0123456789");
+        return (ft_getdec(unum, 10));
+    }
+    else if (arg == 'p')
+    {
+        void *ptr = va_arg(ap, void *);
+        unsigned long num = (unsigned long)ptr;
+        if (num == 0)
+            return (write(1, "(nil)", 5));
+        c += write(1, "0x", 2);
+        ft_putnbr_base(num, "0123456789abcdef");
+        return (c += ft_getdec(num, 16));
+    }
+    else if (arg == 'x' || arg == 'X')
+    {
+        unsigned int xnum = va_arg(ap, unsigned int);
+        if (arg == 'x')
+            ft_putnbr_base((unsigned long)xnum, "0123456789abcdef");
+        else
+            ft_putnbr_base((unsigned long)xnum, "0123456789ABCDEF");
+        return (ft_getdec(xnum, 16));
+    }
+    return (0);
 }
 
 static int	ft_print_chars(char arg, va_list ap)
@@ -113,3 +150,4 @@ int	ft_printf(const char *args, ...)
 	}
 	return (va_end(ap), c);
 }
+
