@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:43:06 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/22 23:48:37 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/25 01:47:23 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ typedef struct s_pile
 	int				content;
 	int				index;
 	int				op_cost;
+	int				index_target;
 	int				target;
+	struct s_pile	*target_n;
 	struct s_pile	*prev;
 	struct s_pile	*next;
 }	t_pile;

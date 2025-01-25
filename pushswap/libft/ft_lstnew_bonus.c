@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 18:18:25 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/23 03:49:16 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/25 01:47:23 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ t_pile	*ft_lstnew(int content, int index)
 		return (NULL);
 	data->content = content;
 	data->target = 0;
+	data->index_target = 0;
 	data->op_cost = 0;
 	data->index = index;
+	data->target_n = NULL;
 	data->prev = NULL;
 	data->next = NULL;
 	return (data);

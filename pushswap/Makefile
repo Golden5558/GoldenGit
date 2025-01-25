@@ -4,7 +4,7 @@ CC		= cc
 
 CFLAGS	= -Wall -Werror -Wextra -g3
 
-SRCS	= push_swap.c push_swap_utils.c parsing.c tools.c sorting.c
+SRCS	= push_swap.c push_swap_utils.c parsing.c tools.c sorting.c sorting_2.c
 
 LIB_DIR	= libft
 

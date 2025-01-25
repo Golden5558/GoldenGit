@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 04:27:59 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/23 02:15:33 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:04:44 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	fill_a(char **args, int *valid, t_pile **a)
 	i = 0;
 	while (args[i])
 	{
-		tmp = ft_lstnew(ft_atoi_verif(args[i], valid), i + 1);
+		tmp = ft_lstnew(ft_atoi_verif(args[i], valid), i);
 		if (!tmp || *valid == 0)
 			return (ft_lstclear(&tmp), ft_lstclear(a), 1);
 		if (!(*a))

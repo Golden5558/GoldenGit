@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 00:17:24 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/23 04:42:19 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/23 23:29:26 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	print_pile(t_pile *pile)
 {
 	while (pile)
 	{
-		ft_printf("%d --> index : %d", pile->content, pile->index);
-		ft_printf(" --> target : %d", pile->target);
+		ft_printf("%d --> target : %d", pile->content, pile->target);
+		ft_printf(" --> op_cost : %d", pile->op_cost);
+		ft_printf(" --> index : %d", pile->index);
 		pile = pile->next;
 		ft_printf("\n");
 	}
@@ -37,7 +38,10 @@ int	main(int argc, char **argv)
 		small_pile(&a, &b);
 	else if (ft_lstsize(a) > 3)
 		sort_piles(&a, &b);
-	// print_pile(a);
+	ft_printf("\na pile :\n");
+	print_pile(a);
+	ft_printf("\nb pile :\n");
+	print_pile(b);
 	ft_lstclear(&a);
 	ft_lstclear(&b);
 }
