@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 00:17:04 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/25 01:54:46 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/26 03:47:10 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,18 @@ void	*ft_freeall(char **tab);
 
 // Sorting :
 
-int		get_index_from_value(t_pile **pile, int value);
 void	apply_operator(t_pile **a, t_pile **b, t_operations op);
 void	updt_index(t_pile **a, t_pile **b);
 void	small_pile(t_pile **to_sort, t_pile **pile_2);
 void	sort_piles(t_pile **a, t_pile **b);
-void	move_targets_to_top(t_pile **from, t_pile **to, t_pile *to_move);
+void	move_targets_to_top(t_pile **from, t_pile **to, t_pile *to_move, int i);
+void	final_rotate_a(t_pile **a, t_pile **b);
 t_pile	*get_max_node(t_pile **pile);
+t_pile	*get_min_node(t_pile **pile);
 t_pile	*get_lower_op_cost_node(t_pile **pile);
 
 // To remove :
 
-void	print_pile(t_pile *pile);
+void	print_piles(t_pile *a, t_pile *b);
 
 #endif

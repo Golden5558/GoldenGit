@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 05:50:30 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/23 23:13:41 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/26 02:57:58 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,16 @@ void	apply_operator(t_pile **a, t_pile **b, t_operations op)
 	if (op == pb)
 		return (push(a, b), ft_putstr_fd("pb\n", 1), updt_index(a, b));
 	if (op == ra)
-		return (rotate(a), ft_putstr_fd("ra\n", 1), updt_index(a, b));
+		return (rotate(a), updt_index(a, b));
 	if (op == rb)
-		return (rotate(b), ft_putstr_fd("rb\n", 1), updt_index(a, b));
+		return (rotate(b), updt_index(a, b));
 	if (op == rr)
 		return (rotate(a), rotate(b), ft_putstr_fd("rr\n", 1),
 			updt_index(a, b));
 	if (op == rra)
-		return (reverse_rotate(a), ft_putstr_fd("rra\n", 1), updt_index(a, b));
+		return (reverse_rotate(a), updt_index(a, b));
 	if (op == rrb)
-		return (reverse_rotate(b), ft_putstr_fd("rrb\n", 1), updt_index(a, b));
+		return (reverse_rotate(b), updt_index(a, b));
 	if (op == rrr)
 		return (reverse_rotate(a), reverse_rotate(b), ft_putstr_fd("rrr\n", 1),
 			updt_index(a, b));
