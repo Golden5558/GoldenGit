@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 01:59:45 by nberthal          #+#    #+#             */
-/*   Updated: 2024/12/12 01:54:02 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:36:52 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	verif_dbl(char *base)
 	len = 0;
 	while (base[len])
 		len++;
-		
 	while (j < len)
 	{
 		i = j + 1;
@@ -77,7 +76,7 @@ void	ft_putnbr_base(long long nbr, char *base)
 	{
 		write(1, "-", 1);
 		nbr = -nbr;
-	}	
+	}
 	if (nbr >= b)
 		ft_putnbr_base((nbr / b), base);
 	ft_putchar_fd(base[nbr % b], 1);

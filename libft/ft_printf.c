@@ -6,88 +6,61 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 06:08:43 by nberthal          #+#    #+#             */
-/*   Updated: 2024/12/12 01:51:04 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/26 10:23:18 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_getdec(int n, int base)
-{
-	int	i;
-
-	i = 0;
-	if (n == 0)
-		return (1);
-	while ((n / base) != 0)
-	{
-		n = n / base;
-		i++;
-	}
-	return (i + 1);
-}
-
 static int	ft_print_num(char arg, va_list ap)
 {
-	int			c;
-	long long	num;
+	int	c;
+	int	num;
 
-	num = va_arg(ap, long long);
 	c = 0;
-	if (ft_strchr("idu", arg))
+	if (ft_strchr("di", arg))
 	{
-		ft_putnbr_base(num, "0123456789");
-		return (c = ft_getdec(num, 10), c);
+		num = va_arg(ap, int);
+		ft_putnbr_base((long)num, "0123456789");
+		return (ft_getdec(num, 10));
 	}
-	else if (arg == 'p')
-	{
-		if (num == 0)
-			return(c = write(1, "(nil)", 5), c);
-		c += write(1, "0x", 2);
-		ft_putnbr_base(num, "0123456789abcdef");
-	}
-	else if (arg == 'x')
-		ft_putnbr_base(num, "0123456789abcdef");
-	else if (arg == 'X')
-		ft_putnbr_base(num, "0123456789ABCDEF");
-	return(c += ft_getdec(num, 16), c);
+	else if (arg == 'u' || arg == 'x' || arg == 'X' || arg == 'p')
+		return (ft_print_hex_uint(arg, ap));
+	return (0);
 }
 
 static int	ft_print_chars(char arg, va_list ap)
 {
-	int 	c;
 	char	*str;
 
-	c = 0;
 	if (arg == 's')
 	{
 		str = va_arg(ap, char *);
+		if (!str)
+			return (write(1, "(null)", 6));
 		ft_putstr_fd(str, 1);
-		c = ft_strlen(str);
+		return (ft_strlen(str));
 	}
 	else if (arg == 'c')
 	{
-		(void)str;
 		ft_putchar_fd(va_arg(ap, int), 1);
-		c = 1;
+		return (1);
 	}
-	return(c);
+	return (0);
 }
 
 static int	ft_printarg(const char *args, va_list ap)
 {
-	int	c;
+	char	format;
 
-	c = 0;
-	if (ft_strchr("idu", *(args + 1)))
-		c += ft_print_num(*(args + 1), ap);
-	else if (ft_strchr("xXp", *(args + 1)))
-		c += ft_print_num(*(args + 1), ap);
-	else if (ft_strchr("cs", *(args + 1)))
-		c += ft_print_chars(*(args + 1), ap);
-	else if (*args + 1 == '%')
-		c += write(1, "%", 1);
-	return (c);
+	format = args[1];
+	if (ft_strchr("diuxXp", format))
+		return (ft_print_num(format, ap));
+	if (ft_strchr("cs", format))
+		return (ft_print_chars(format, ap));
+	if (format == '%')
+		return (write(1, "%", 1));
+	return (0);
 }
 
 int	ft_printf(const char *args, ...)

@@ -12,21 +12,6 @@
 
 #include "libft.h"
 
-static int	ft_getdec(int n)
-{
-	int	i;
-
-	i = 0;
-	if (n == 0)
-		return (1);
-	while ((n / 10) != 0)
-	{
-		n = n / 10;
-		i++;
-	}
-	return (i + 1);
-}
-
 static void	ft_getstr(char *s, long n)
 {
 	if (n >= 10)
@@ -45,7 +30,7 @@ char	*ft_itoa(int n)
 	long	nlong;
 
 	nlong = (long)n;
-	dec = ft_getdec(n);
+	dec = ft_getdec(n, 10);
 	if (n < 0)
 		dec++;
 	s = malloc(sizeof(char) * (dec + 1));

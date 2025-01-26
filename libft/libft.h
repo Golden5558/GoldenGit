@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:43:06 by nberthal          #+#    #+#             */
-/*   Updated: 2024/12/03 16:20:01 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/26 10:27:10 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,21 @@
 # define LIBFT_H
 
 # include <stdlib.h>
+# include <limits.h>
 # include <stdarg.h>
 # include <unistd.h>
 
-typedef struct s_list
+typedef struct s_pile
 {
-	void			*content;
-	struct s_list	*next;
-}	t_list;
+	int				content;
+	int				index;
+	int				op_cost;
+	int				index_target;
+	int				target;
+	struct s_pile	*target_n;
+	struct s_pile	*prev;
+	struct s_pile	*next;
+}	t_pile;
 
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
@@ -30,7 +37,7 @@ int		ft_isdigit(int c);
 int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
-int		ft_atoi(const char *nptr);
+int		ft_atoi_verif(const char *nptr, int *valid);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strchr(const char *s, int c);
@@ -57,17 +64,21 @@ void	ft_putnbr_fd(int n, int fd);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, char *src, size_t size);
-t_list	*ft_lstnew(void *content);
-void	ft_lstadd_front(t_list **lst, t_list *new);
-int		ft_lstsize(t_list *lst);
-int		ft_lstsize(t_list *lst);
-t_list	*ft_lstlast(struct s_list *lst);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-void	ft_lstdelone(t_list *lst, void (*del)(void *));
-void	ft_lstclear(t_list **lst, void (*del)(void *));
-void	ft_lstiter(t_list *lst, void (*f)(void *));
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_putnbr_base(long long nbr, char *base);
 int		ft_printf(const char *args, ...)__attribute__((format(printf, 1, 2)));
+int		ft_print_hex_uint(char arg, va_list ap);
+int		ft_getdec(int n, int base);
+
+//	Lst functions :
+
+t_pile	*ft_lstnew(int content, int index);
+t_pile	*ft_lstlast(t_pile *lst);
+t_pile	*ft_lstmap(t_pile *lst, int (*f)(int));
+void	ft_lstadd_back(t_pile **lst, t_pile *new);
+void	ft_lstadd_front(t_pile **lst, t_pile *new);
+int		ft_lstsize(t_pile *lst);
+void	ft_lstdelone(t_pile *lst);
+void	ft_lstclear(t_pile **lst);
+void	ft_lstiter(t_pile *lst, void (*f)(int));
 
 #endif

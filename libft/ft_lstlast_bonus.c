@@ -6,13 +6,13 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 20:21:33 by nberthal          #+#    #+#             */
-/*   Updated: 2024/10/22 23:24:15 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:35:27 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+t_pile	*ft_lstlast(t_pile *lst)
 {
 	if (!lst)
 		return (lst);
