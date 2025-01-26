@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 05:50:30 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/26 02:57:58 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/26 08:16:06 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,25 +91,21 @@ void	apply_operator(t_pile **a, t_pile **b, t_operations op)
 {
 	if (op == sa)
 		return (swap(a), ft_putstr_fd("sa\n", 1), updt_index(a, b));
-	if (op == sb)
-		return (swap(b), ft_putstr_fd("sb\n", 1), updt_index(a, b));
-	if (op == ss)
-		return (swap(a), swap(b), ft_putstr_fd("ss\n", 1), updt_index(a, b));
 	if (op == pa)
-		return (push(b, a), ft_putstr_fd("pa\n", 1), updt_index(a, b));
+		return (push(b, a), updt_index(a, b));
 	if (op == pb)
-		return (push(a, b), ft_putstr_fd("pb\n", 1), updt_index(a, b));
+		return (push(a, b), updt_index(a, b));
 	if (op == ra)
 		return (rotate(a), updt_index(a, b));
 	if (op == rb)
 		return (rotate(b), updt_index(a, b));
-	if (op == rr)
-		return (rotate(a), rotate(b), ft_putstr_fd("rr\n", 1),
-			updt_index(a, b));
 	if (op == rra)
 		return (reverse_rotate(a), updt_index(a, b));
 	if (op == rrb)
 		return (reverse_rotate(b), updt_index(a, b));
+	if (op == rr)
+		return (rotate(a), rotate(b), ft_putstr_fd("rr\n", 1),
+			updt_index(a, b));
 	if (op == rrr)
 		return (reverse_rotate(a), reverse_rotate(b), ft_putstr_fd("rrr\n", 1),
 			updt_index(a, b));

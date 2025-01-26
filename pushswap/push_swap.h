@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 00:17:04 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/26 03:47:10 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/26 09:05:29 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 typedef enum s_operations
 {
 	sa,
-	sb,
-	ss,
 	pa,
 	pb,
 	ra,
@@ -35,8 +33,8 @@ typedef enum s_operations
 // Parsing & utils:
 
 void	check_input(char **args, t_pile **a);
-void	pars_args_and_check_inputs(int argc, char **argv, t_pile **a);
-void	error_exit(char *msg);
+void	pars_args_and_check_inputs(char **argv, t_pile **a);
+void	error_exit(void);
 void	*ft_freeall(char **tab);
 
 // Sorting :
@@ -50,9 +48,5 @@ void	final_rotate_a(t_pile **a, t_pile **b);
 t_pile	*get_max_node(t_pile **pile);
 t_pile	*get_min_node(t_pile **pile);
 t_pile	*get_lower_op_cost_node(t_pile **pile);
-
-// To remove :
-
-void	print_piles(t_pile *a, t_pile *b);
 
 #endif

@@ -2,7 +2,7 @@ NAME	= push_swap
 
 CC		= cc
 
-CFLAGS	= -Wall -Werror -Wextra -g3
+CFLAGS	= -Wall -Werror -Wextra
 
 SRCS	= push_swap.c push_swap_utils.c parsing.c tools.c sorting.c sorting_2.c
 

@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:43:06 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/25 01:47:23 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/26 10:27:10 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, char *src, size_t size);
 void	ft_putnbr_base(long long nbr, char *base);
 int		ft_printf(const char *args, ...)__attribute__((format(printf, 1, 2)));
+int		ft_print_hex_uint(char arg, va_list ap);
+int		ft_getdec(int n, int base);
 
 //	Lst functions :
 

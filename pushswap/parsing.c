@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 04:27:59 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/26 04:31:30 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/26 09:05:19 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,23 @@ void	check_input(char **args, t_pile **a)
 
 	valid = 1;
 	if (!args)
-		error_exit("Error\n");
+		error_exit();
 	if (fill_a(args, &valid, a) == 1)
 	{
 		ft_freeall(args);
-		error_exit("Error\n");
+		error_exit();
 	}
 	if (!(*a) || valid == 0)
 	{
 		ft_freeall(args);
 		ft_lstclear(a);
-		error_exit("Error\n");
+		error_exit();
 	}
 	if (check_no_double(a) == 1)
 	{
 		ft_freeall(args);
 		ft_lstclear(a);
-		error_exit("Error\n");
+		error_exit();
 	}
 }
 
@@ -106,27 +106,18 @@ static char	*pars_args(char	**argv)
 	return (args_string);
 }
 
-void	pars_args_and_check_inputs(int argc, char **argv, t_pile **a)
+void	pars_args_and_check_inputs(char **argv, t_pile **a)
 {
 	char	**args;
 	char	*args_string;
 
-	if (argc > 2)
-	{
-		args_string = pars_args(argv);
-		if (!args_string)
-			error_exit("Error\n");
-		args = ft_split(args_string, ' ');
-		if (!args)
-			error_exit("Error\n");
-		free(args_string);
-	}
-	else
-	{
-		args = ft_split(argv[1], ' ');
-		if (!args)
-			error_exit("Error\n");
-	}
+	args_string = pars_args(argv);
+	if (!args_string)
+		error_exit();
+	args = ft_split(args_string, ' ');
+	free(args_string);
+	if (!args)
+		error_exit();
 	check_input(args, a);
 	ft_freeall(args);
 }

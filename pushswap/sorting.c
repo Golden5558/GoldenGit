@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 03:00:43 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/26 03:47:30 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/26 08:17:04 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,13 +125,17 @@ static void	set_closest_bigger_target(t_pile **a, t_pile **b)
 void	sort_piles(t_pile **a, t_pile **b)
 {
 	while (ft_lstsize(*a) > 3 && ft_lstsize(*b) < 2)
+	{
 		apply_operator(a, b, pb);
+		ft_putstr_fd("pb\n", 1);
+	}
 	while (ft_lstsize(*a) > 3)
 	{
 		set_closest_smaller_target(a, b);
 		calculate_op_cost(a, b);
 		move_targets_to_top(a, b, get_lower_op_cost_node(a), 0);
 		apply_operator(a, b, pb);
+		ft_putstr_fd("pb\n", 1);
 	}
 	small_pile(a, b);
 	while (ft_lstsize(*b) > 0)
@@ -140,6 +144,7 @@ void	sort_piles(t_pile **a, t_pile **b)
 		calculate_op_cost(b, a);
 		move_targets_to_top(b, a, get_lower_op_cost_node(b), 1);
 		apply_operator(b, a, pb);
+		ft_putstr_fd("pa\n", 1);
 	}
 	final_rotate_a(a, b);
 }
