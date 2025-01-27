@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 05:50:30 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/26 08:16:06 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/27 04:24:28 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,11 @@ static void	reverse_rotate(t_pile **pile)
 {
 	t_pile	*new_top;
 	t_pile	*old_top;
-	t_pile	*temp;
 
 	if (!pile || !(*pile) || !(*pile)->next)
 		return ;
 	old_top = *pile;
 	new_top = ft_lstlast(*pile);
-	temp = new_top->prev;
 	new_top->prev->next = NULL;
 	new_top->prev = NULL;
 	new_top->next = old_top;
