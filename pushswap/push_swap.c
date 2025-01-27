@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 00:17:24 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/26 10:10:07 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/27 09:29:56 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,25 @@ void	small_pile(t_pile **to_sort, t_pile **pile_2)
 	}
 }
 
+static int	check_if_sorted(t_pile **a)
+{
+	t_pile	*tmp;
+
+	if (!a || !(*a))
+		return (1);
+	tmp = *a;
+	while (tmp)
+	{
+		if (tmp->next)
+		{
+			if (tmp->content > tmp->next->content)
+				return (0);
+		}
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_pile	*a;
@@ -56,6 +75,12 @@ int	main(int argc, char **argv)
 	if (argc == 1)
 		error_exit();
 	pars_args_and_check_inputs(argv, &a);
+	if (check_if_sorted(&a) == 1)
+	{
+		ft_lstclear(&a);
+		ft_lstclear(&b);
+		return (0);
+	}
 	if (ft_lstsize(a) <= 3)
 		small_pile(&a, &b);
 	else if (ft_lstsize(a) > 3)
