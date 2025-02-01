@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:40:58 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/01 19:48:50 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:36:02 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,28 @@ void	open_files(char **argv, int ac, t_file *file, t_cmd **list_cmd)
 
 void	init_fd_and_pids(t_file *file, t_cmd **list_cmd)
 {
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	file->pipefd = malloc(sizeof(int [2]) * (file->nb_cmd - 1));
+	if (!file->pipefd)
+		error_exit(strerror(errno), file, list_cmd); // keep errno here ? custom
 	file->pids = malloc(sizeof(pid_t) * file->nb_cmd);
 	if (!file->pids)
 		error_exit(strerror(errno), file, list_cmd); // keep errno here ? custom
+	while (i < file->nb_cmd - 1)
+	{
+		if (pipe(file->pipefd[i++]) == -1)
+		{
+			while (j < i - 1)
+			{
+				close(file->pipefd[j][0]);
+				close(file->pipefd[j][1]);
+				j++;
+			}
+			error_exit(strerror(errno), file, list_cmd);
+		}
+	}
 }

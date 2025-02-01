@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:08:32 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/01 19:47:55 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:38:11 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ typedef struct s_file
 	int		here_doc;
 	int		nb_cmd;
 	int		start_cmd;
-	int		*pipefd1;
-	int		*pipefd2;
+	int		**pipefd;
 }	t_file;
 
 void	error_exit(char *msg, t_file *file, t_cmd **list_cmd);
