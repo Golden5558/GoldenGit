@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:43:06 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/27 19:51:49 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:41:53 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,19 @@
 # include <limits.h>
 # include <stdarg.h>
 # include <unistd.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
+typedef struct s_list
+{
+	char		*stock;
+	char		*buffer;
+	int			read_size;
+	int			len_stock;
+	int			i;
+}	t_list;
 
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
@@ -57,5 +70,11 @@ void	ft_putnbr_base(long long nbr, char *base);
 int		ft_printf(const char *args, ...)__attribute__((format(printf, 1, 2)));
 int		ft_print_hex_uint(char arg, va_list ap);
 int		ft_getdec(int n, int base);
+
+// Get_next_line :
+
+char	*get_next_line(int fd);
+char	*ft_strjoin_and_free(char *s1, char *s2);
+char	*ft_substr_free(char *s, unsigned int start, size_t len, char *b);
 
 #endif

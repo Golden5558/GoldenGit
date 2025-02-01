@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst.h                                           :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/27 16:23:12 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/01 15:34:28 by nberthal         ###   ########.fr       */
+/*   Created: 2024/10/30 06:35:16 by nberthal          #+#    #+#             */
+/*   Updated: 2025/01/30 10:41:06 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_LST_H
-# define FT_LST_H
+#include "libft.h"
 
-# include "../libft/libft.h"
-
-typedef struct s_cmd
+char	*ft_strjoin_and_free(char *s1, char *s2)
 {
-	char			*path;
-	char			**cmd_args;
-	int				index;
-	struct s_cmd	*next;
-}	t_cmd;
+	char	*new_str;
 
-t_cmd	*ft_lstnew(char *cmd, char **cmd_args, int index);
-t_cmd	*ft_lstlast(t_cmd *lst);
-void	ft_lstadd_back(t_cmd **lst, t_cmd *new);
-int		ft_lstsize(t_cmd *lst);
-void	ft_lstclear(t_cmd **lst);
+	new_str = ft_strjoin(s1, s2);
+	free(s1);
+	free(s2);
+	return (new_str);
+}
 
-#endif
+char	*ft_substr_free(char *s, unsigned int start, size_t len, char *b)
+{
+	char	*new_str;
+
+	new_str = ft_substr(s, start, len);
+	free(b);
+	return (new_str);
+}

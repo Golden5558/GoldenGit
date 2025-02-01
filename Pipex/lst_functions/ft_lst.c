@@ -6,23 +6,22 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:08:27 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/28 06:52:58 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:35:51 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lst.h"
 
-t_cmd	*ft_lstnew(char *cmd, char **cmd_args, int index)
+t_cmd	*ft_lstnew(char *path, char **cmd_args, int index)
 {
 	t_cmd	*data;
 
 	data = malloc(sizeof(t_cmd));
 	if (!data)
 		return (NULL);
-	data->cmd = cmd;
+	data->path = path;
 	data->cmd_args = cmd_args;
 	data->index = index;
-	data->path = NULL;
 	data->next = NULL;
 	return (data);
 }
@@ -38,8 +37,6 @@ void	ft_lstclear(t_cmd **lst)
 	while (current)
 	{
 		next = current->next;
-		if (current->cmd)
-			free(current->cmd);
 		if (current->path)
 			free(current->path);
 		ft_free_all(current->cmd_args);

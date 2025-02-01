@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:10:46 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/29 10:37:17 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:40:47 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,134 @@
 
 
 
-int	main(int argc, char **argv)
+// int	main(int argc, char **argv)
+// {
+// 	char	*limiter;
+// 	char	*line;
+
+
+// 	if (argc < 3)
+// 		return (1);
+// 	if (ft_strncmp(argv[1], "here_doc", 8) != 0)
+// 		return (1);
+// 	limiter = ft_strjoin(argv[2], "\n");
+// 	ft_putstr_fd("pipe heredoc>", 1);
+// 	while (1)
+// 	{
+// 		line = get_next_line(1);
+// 		if (!line || ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+// 		{
+// 			free(line);
+// 			free(limiter);
+// 			break;
+// 		}
+// 		if (line)
+// 			ft_putstr_fd("pipe heredoc>", 1);
+// 		free(line);
+// 	}
+// }
+
+void	close_all_pipefd(t_file *file, int to_close)
 {
-	int		i;
-	int		fd;
-	char	buf[2];
-	char	*line;
-
-
+	int	i;
+	
 	i = 0;
-	if (argc != 3)
-		return (1);
-	if (ft_strcmp(argv[1], "here_doc") != 0)
-		return (1);
-	while (1)
+	if (to_close >= 0)
+		close(to_close);
+	while (i < file->nb_cmd - 1)
 	{
-		read(0, buf, 1);
-		buf[1] = '\0';
-		
+		close(file->pipefd[i][0]);
+		close(file->pipefd[i][1]);
+		i++;
 	}
+}
+
+void	error_exit(char *msg, t_file *file, t_cmd **list_cmd)
+{
+	ft_lstclear(list_cmd);
+	if (file)
+	{
+		if (file->pids)
+			free(file->pids);
+		if (file->pipefd)
+			free(file->pipefd);
+	}
+	ft_putstr_fd(msg, 2);
+	exit (EXIT_FAILURE);
+}
+
+static void	get_command_amount(int argc, char **argv, char **envp, t_file *file)
+{
+	if (argc < 5 || (ft_strncmp(argv[1], "here_doc", 8) == 0 && argc < 6))
+	{
+		ft_putstr_fd("Too few arguments\n", 2);
+		exit (1);
+	}
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		file->nb_cmd = argc - 4;
+		file->start_cmd = 3;
+		file->here_doc = 1;
+	}
+	else
+	{
+		file->nb_cmd = argc - 3;
+		file->start_cmd = 2;
+	}
+	file->argv = argv;
+	file->envp = envp;
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_file	file;
+	t_cmd	*list_cmd;
+	pid_t	pid1;
+	pid_t	pid2;
+	int		pipefd[2];
+
+	list_cmd = NULL;
+	ft_memset(&file, 0, sizeof(t_file));
+	get_command_amount(argc, argv, envp, &file);
+    pars_cmds(argv, envp, &file, &list_cmd);
+    open_files(argv, argc, &file, &list_cmd);
+    if (pipe(pipefd) == -1)
+        error_exit("Pipe creation failed\n", &file, &list_cmd);
+	pid1 = fork();
+	if (pid1 == -1)
+		return (-1);
+	if (pid1 == 0)
+	{
+		dup2(file.infile, STDIN_FILENO);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(file.infile);
+		close(file.outfile);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		execve(list_cmd->path, list_cmd->cmd_args, envp);
+	}
+	pid2 = fork();
+	if (pid2 == -1)
+		return (-1);
+	if (pid2 == 0)
+	{
+		list_cmd = list_cmd->next;
+		dup2(pipefd[0], STDIN_FILENO);
+		dup2(file.outfile, STDOUT_FILENO);
+		close(file.infile);
+		close(file.outfile);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		execve(list_cmd->path, list_cmd->cmd_args, envp);
+	}
+    close(file.infile);
+    close(file.outfile);
+    close(pipefd[0]);
+    close(pipefd[1]);
+    waitpid(pid1, NULL, 0);
+    waitpid(pid2, NULL, 0);
+    ft_lstclear(&list_cmd);
+    return (0);
 }
 
 
@@ -67,6 +176,7 @@ int	main(int argc, char **argv)
 
 
 
+/*
 // Fonction d'erreur pour simplifier la gestion
 void error_exit(const char *msg) {
     perror(msg);
@@ -191,3 +301,4 @@ int main(int argc, char **argv, char **envp) {
 
     return 0;
 }
+*/
