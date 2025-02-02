@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:08:32 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/01 14:38:11 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/02 23:52:14 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_file
 	char	**argv;
 	char	**envp;
 	pid_t	*pids;
+	int		i;
 	int		infile;
 	int		outfile;
 	int		here_doc;
@@ -37,7 +38,7 @@ typedef struct s_file
 }	t_file;
 
 void	error_exit(char *msg, t_file *file, t_cmd **list_cmd);
-void	close_all_pipefd(t_file *file, int to_close);
+void	close_pipefd_exept(t_file *file, int keep_p1, int keep_fd1, int p2_fd2);
 
 // Parsing :
 
@@ -54,3 +55,4 @@ void	last_fork(t_file *file, t_cmd **list_cmd);
 #endif
 
 // a tester et reproduire --> cat | cat | ls
+// bash history command error oli

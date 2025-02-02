@@ -6,21 +6,13 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:40:58 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/01 15:36:02 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/02 23:28:57 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// char	**join_arg_after_cmd(char **args)
-// {
-// 	char	**new_cmd_args;
-// 	int		i;
-//
-// 	i = 0;
-// }
-
-static char	*get_path(char *cmd, char **envp)
+static char	*get_path_envp(char *cmd, char **envp)
 {
 	char	**path;
 	char	*full_path;
@@ -32,7 +24,7 @@ static char	*get_path(char *cmd, char **envp)
 		return (NULL);
 	while (*envp && ft_strncmp(*envp, "PATH=", 5) != 0)
 		envp++;
-	path = ft_split(*envp, ':');	
+	path = ft_split(*envp, ':');
 	while (path[i])
 	{
 		tmp = ft_strjoin(path[i], "/");
@@ -48,32 +40,38 @@ static char	*get_path(char *cmd, char **envp)
 	return (ft_free_all(path));
 }
 
+static char	*find_cmd_path(char **cmd_args, char **envp)
+{
+	if (ft_strchr(cmd_args[0], '/'))
+	{
+		if (access(cmd_args[0], X_OK) == 0)
+			return (ft_strdup(cmd_args[0]));
+		return (NULL);
+	}
+	return (get_path_envp(cmd_args[0], envp));
+}
+
 void	pars_cmds(char **argv, char **envp, t_file *file, t_cmd **list_cmd)
 {
-	t_cmd	*tmp;
 	char	**cmd_args;
 	char	*path;
 	int		start;
-	int		index;
+	int		i;
 
-	index = 0;
+	i = 0;
 	start = file->start_cmd;
-	tmp = *list_cmd;
-	while (index < file->nb_cmd)
+	while (i < file->nb_cmd)
 	{
 		cmd_args = ft_split(argv[start++], ' ');
 		if (!cmd_args)
 			error_exit(strerror(errno), file, list_cmd);
-		if (ft_strchr(cmd_args[0], '/'))
+		path = find_cmd_path(cmd_args, envp);
+		if (!path)
 		{
-			if (access(cmd_args[0], X_OK) == 0)
-				path = ft_strdup(cmd_args[0]);
+			ft_free_all(cmd_args);
+			error_exit(strerror(errno), file, list_cmd);
 		}
-		else
-			path = get_path(cmd_args[0], envp);
-		// if (ft_strchr(argv[start_cmd], '\'') || ft_strchr(argv[start_cmd], '\"'))
-		tmp = ft_lstnew(path, cmd_args, index++);
-		ft_lstadd_back(list_cmd, tmp);
+		ft_lstadd_back(list_cmd, ft_lstnew(path, cmd_args, i++));
 	}
 }
 
@@ -84,49 +82,22 @@ void	open_files(char **argv, int ac, t_file *file, t_cmd **list_cmd)
 		file->infile = open(argv[1], O_RDONLY);
 		if (file->infile < 0)
 		{
-			close_all_pipefd(file, -1);
+			close_pipefd_exept(file, -1, -1, -1);
 			error_exit(strerror(errno), file, list_cmd);
 		}
 		file->outfile = open(argv[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (file->outfile < 0)
 		{
-			close_all_pipefd(file, file->infile);
+			close(file->infile);
+			close_pipefd_exept(file, -1, -1, -1);
 			error_exit(strerror(errno), file, list_cmd);
 		}
-	}		
+	}
 	else if (file->here_doc == 1)
 	{
 		file->outfile = open(argv[ac - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (file->outfile < 0)
 		{
-			error_exit(strerror(errno), file, list_cmd);
-		}
-	}
-}
-
-void	init_fd_and_pids(t_file *file, t_cmd **list_cmd)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	file->pipefd = malloc(sizeof(int [2]) * (file->nb_cmd - 1));
-	if (!file->pipefd)
-		error_exit(strerror(errno), file, list_cmd); // keep errno here ? custom
-	file->pids = malloc(sizeof(pid_t) * file->nb_cmd);
-	if (!file->pids)
-		error_exit(strerror(errno), file, list_cmd); // keep errno here ? custom
-	while (i < file->nb_cmd - 1)
-	{
-		if (pipe(file->pipefd[i++]) == -1)
-		{
-			while (j < i - 1)
-			{
-				close(file->pipefd[j][0]);
-				close(file->pipefd[j][1]);
-				j++;
-			}
 			error_exit(strerror(errno), file, list_cmd);
 		}
 	}

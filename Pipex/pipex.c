@@ -6,40 +6,11 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:08:24 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/01 17:25:43 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/02 23:22:02 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	close_all_pipefd(t_file *file, int to_close)
-{
-	int	i;
-	
-	i = 0;
-	if (to_close >= 0)
-		close(to_close);
-	while (i < file->nb_cmd - 1)
-	{
-		close(file->pipefd[i][0]);
-		close(file->pipefd[i][1]);
-		i++;
-	}
-}
-
-void	error_exit(char *msg, t_file *file, t_cmd **list_cmd)
-{
-	ft_lstclear(list_cmd);
-	if (file)
-	{
-		if (file->pids)
-			free(file->pids);
-		if (file->pipefd)
-			free(file->pipefd);
-	}
-	ft_putstr_fd(msg, 2);
-	exit (EXIT_FAILURE);
-}
 
 static void	get_command_amount(int argc, char **argv, char **envp, t_file *file)
 {
@@ -69,15 +40,17 @@ static void	wait_and_finishing_up(t_file *file, t_cmd **list_cmd)
 
 	i = 0;
 	while (i < file->nb_cmd)
-		waitpid(i++, NULL, 0);
-	if (file->here_doc == 0)
-		close(file->infile);
-	close_all_pipefd(file, file->outfile);
+		waitpid(file->pids[i++], NULL, 0);
 	ft_lstclear(list_cmd);
 	if (file->pids)
 		free(file->pids);
+	i = 0;
 	if (file->pipefd)
+	{
+		while (i < file->nb_cmd - 1)
+			free(file->pipefd[i++]);
 		free(file->pipefd);
+	}
 	exit (0);
 }
 
