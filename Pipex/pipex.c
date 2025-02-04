@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:08:24 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/02 23:22:02 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:42:20 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	get_command_amount(int argc, char **argv, char **envp, t_file *file)
 	if (argc < 5 || (ft_strncmp(argv[1], "here_doc", 8) == 0 && argc < 6))
 	{
 		ft_putstr_fd("Too few arguments\n", 2);
-		exit (1);
+		exit(1);
 	}
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
@@ -34,11 +34,64 @@ static void	get_command_amount(int argc, char **argv, char **envp, t_file *file)
 	file->envp = envp;
 }
 
+static void	handle_here_doc(t_file *file, t_cmd **list_cmd)
+{
+	char	*limiter;
+	char	*line;
+
+	limiter = ft_strjoin(file->argv[2], "\n");
+	if (!limiter)
+		error_exit("Error strjoin limiter", file, list_cmd);
+	ft_putstr_fd("pipe heredoc>", 1);
+	while (1)
+	{
+		line = get_next_line(0);
+		if (!line || ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		{
+			free(line);
+			free(limiter);
+			break ;
+		}
+		if (line)
+			ft_putstr_fd("pipe heredoc>", 1);
+		ft_putstr_fd(line, file->pipe_fd_hd[1]);
+		free(line);
+	}
+}
+
+static void	pipe_here_doc(t_file *file, t_cmd **list_cmd)
+{
+	int	i;
+
+	i = 0;
+	if (pipe(file->pipe_fd_hd) == -1)
+		exit_if_error_fork(file, list_cmd);
+	file->here_doc_pid = fork();
+	if (file->here_doc_pid == -1)
+		exit_if_error_fork(file, list_cmd);
+	if (file->here_doc_pid == 0)
+	{
+		handle_here_doc(file, list_cmd);
+		close_pipefd_exept(file, -1, -1, -1);
+		close(file->outfile);
+		close(file->pipe_fd_hd[0]);
+		ft_lstclear(list_cmd);
+		if (file->pids)
+			free(file->pids);
+		while (i < file->nb_cmd - 1)
+			free(file->pipefd[i++]);
+		free(file->pipefd);
+		exit(0);
+	}
+	close(file->pipe_fd_hd[1]);
+}
+
 static void	wait_and_finishing_up(t_file *file, t_cmd **list_cmd)
 {
 	int	i;
 
 	i = 0;
+	waitpid(file->here_doc_pid, NULL, 0);
 	while (i < file->nb_cmd)
 		waitpid(file->pids[i++], NULL, 0);
 	ft_lstclear(list_cmd);
@@ -51,7 +104,7 @@ static void	wait_and_finishing_up(t_file *file, t_cmd **list_cmd)
 			free(file->pipefd[i++]);
 		free(file->pipefd);
 	}
-	exit (0);
+	exit(0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -65,6 +118,8 @@ int	main(int argc, char **argv, char **envp)
 	pars_cmds(argv, envp, &file, &list_cmd);
 	init_fd_and_pids(&file, &list_cmd);
 	open_files(argv, argc, &file, &list_cmd);
+	if (file.here_doc == 1)
+		pipe_here_doc(&file, &list_cmd);
 	first_fork(&file, &list_cmd);
 	if (file.nb_cmd > 2)
 		create_forks_loop(&file, &list_cmd);
