@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:22:44 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/04 17:41:20 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/05 00:01:06 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,32 @@ void	exit_if_error_fork(t_file *file, t_cmd **list_cmd)
 	error_exit(strerror(errno), file, list_cmd);
 }
 
+static void	child_first_fork(t_file *file, t_cmd **list_cmd)
+{
+	if (file->here_doc == 1)
+	{
+		dup2(file->pipe_fd_hd[0], STDIN_FILENO);
+		close(file->pipe_fd_hd[0]);
+	}
+	else
+	{
+		dup2(file->infile, STDIN_FILENO);
+		close(file->infile);
+	}
+	dup2(file->pipefd[0][1], STDOUT_FILENO);
+	close_pipefd_exept(file, 0, 1, -1);
+	close(file->outfile);
+	execve((*list_cmd)->path, (*list_cmd)->cmd_args, file->envp);
+	error_exit(strerror(errno), file, list_cmd);
+}
+
 void	first_fork(t_file *file, t_cmd **list_cmd)
 {
 	file->pids[0] = fork();
 	if (file->pids[0] == -1)
 		exit_if_error_fork(file, list_cmd);
 	if (file->pids[0] == 0)
-	{
-		if (file->here_doc == 1)
-		{
-			dup2(file->pipe_fd_hd[0], STDIN_FILENO);
-			close(file->pipe_fd_hd[0]);
-		}
-		else
-		{
-			dup2(file->infile, STDIN_FILENO);
-			close(file->infile);
-		}
-		dup2(file->pipefd[0][1], STDOUT_FILENO);
-		close_pipefd_exept(file, 0, 1, -1);
-		close(file->outfile);
-		execve((*list_cmd)->path, (*list_cmd)->cmd_args, file->envp);
-		error_exit(strerror(errno), file, list_cmd);
-	}
+		child_first_fork(file, list_cmd);
 	if (file->here_doc == 0)
 		close(file->infile);
 	else

@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:08:24 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/04 17:42:20 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/04 23:55:06 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void	pipe_here_doc(t_file *file, t_cmd **list_cmd)
 		close_pipefd_exept(file, -1, -1, -1);
 		close(file->outfile);
 		close(file->pipe_fd_hd[0]);
+		close(file->pipe_fd_hd[1]);
 		ft_lstclear(list_cmd);
 		if (file->pids)
 			free(file->pids);
