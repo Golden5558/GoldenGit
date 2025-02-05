@@ -6,13 +6,13 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:40:58 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/04 17:41:20 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/05 05:28:16 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static char	*get_path_envp(char *cmd, char **envp)
+static char	*get_path_envp(char *cmd, char **envp, t_file *file)
 {
 	char	**path;
 	char	*full_path;
@@ -33,30 +33,34 @@ static char	*get_path_envp(char *cmd, char **envp)
 		full_path = ft_strjoin(tmp, cmd);
 		free(tmp);
 		if (access(full_path, X_OK) == 0)
-			return (ft_free_all(path), full_path);
+			return (file->cmd_found = 1, ft_free_all(path), full_path);
 		free(full_path);
 		i++;
 	}
 	return (ft_free_all(path));
 }
 
-static char	*find_cmd_path(char **cmd_args, char **envp)
+static char	*find_cmd_path(char **cmd_args, char **envp, t_file *file)
 {
 	if (ft_strchr(cmd_args[0], '/'))
 	{
 		if (access(cmd_args[0], X_OK) == 0)
+		{
+			file->cmd_found = 1;
 			return (ft_strdup(cmd_args[0]));
+		}
 		return (NULL);
 	}
-	return (get_path_envp(cmd_args[0], envp));
+	return (get_path_envp(cmd_args[0], envp, file));
 }
 
 void	pars_cmds(char **argv, char **envp, t_file *file, t_cmd **list_cmd)
 {
+	t_cmd	*tmp;
 	char	**cmd_args;
 	char	*path;
 	int		start;
-	int		i;
+	int		i;             // add cmd_found to list_cmd ?
 
 	i = 0;
 	start = file->start_cmd;
@@ -64,41 +68,51 @@ void	pars_cmds(char **argv, char **envp, t_file *file, t_cmd **list_cmd)
 	{
 		cmd_args = ft_split(argv[start++], ' ');
 		if (!cmd_args)
-			error_exit(strerror(errno), file, list_cmd);
-		path = find_cmd_path(cmd_args, envp);
-		if (!path)
+			error_exit("Error --> split cmd_args\n", file, list_cmd);
+		path = find_cmd_path(cmd_args, envp, file);
+		tmp = ft_lstnew(path, cmd_args, i++);
+		if (!tmp)
 		{
 			ft_free_all(cmd_args);
-			error_exit(strerror(errno), file, list_cmd);
+			if (path)
+				free(path);
+			error_exit("Error --> lst_new parsing cmd\n", file, list_cmd);
 		}
-		ft_lstadd_back(list_cmd, ft_lstnew(path, cmd_args, i++));
+		ft_lstadd_back(list_cmd, tmp);
 	}
 }
-
-void	open_files(char **argv, int ac, t_file *file, t_cmd **list_cmd)
+static void	close_pipes_and_exit(t_file *file, t_cmd **list_cmd, int i)
 {
-	if (file->here_doc == 0)
+	int	j;
+
+	j = 0;
+	while (j < i)
 	{
-		file->infile = open(argv[1], O_RDONLY);
-		if (file->infile < 0)
-		{
-			close_pipefd_exept(file, -1, -1, -1);
-			error_exit(strerror(errno), file, list_cmd);
-		}
-		file->outfile = open(argv[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (file->outfile < 0)
-		{
-			close(file->infile);
-			close_pipefd_exept(file, -1, -1, -1);
-			error_exit(strerror(errno), file, list_cmd);
-		}
+		close(file->pipefd[j][0]);
+		close(file->pipefd[j][1]); // see bottom
+		j++;
 	}
-	else if (file->here_doc == 1)
+	error_exit(strerror(errno), file, list_cmd);
+}
+
+void	init_fd_and_pids(t_file *file, t_cmd **list_cmd)
+{
+	int	i;
+
+	i = 0;
+	file->pipefd = malloc(sizeof(int *) * (file->nb_cmd - 1));
+	if (!file->pipefd)
+		error_exit("Error malloc pipefd", file, list_cmd);
+	file->pids = malloc(sizeof(pid_t) * file->nb_cmd);
+	if (!file->pids)
+		error_exit("Error malloc pids", file, list_cmd);
+	while (i < file->nb_cmd - 1)
 	{
-		file->outfile = open(argv[ac - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (file->outfile < 0)
-		{
-			error_exit(strerror(errno), file, list_cmd);
-		}
+		file->pipefd[i] = malloc(sizeof(int) * 2);
+		if (!file->pipefd[i])
+			free_pipes_and_exit(file, list_cmd, i);
+		if (pipe(file->pipefd[i]) == -1) // to fuse
+			close_pipes_and_exit(file, list_cmd, i);
+		i++;
 	}
 }

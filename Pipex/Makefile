@@ -4,7 +4,7 @@ CC		= cc
 
 CFLAGS	= -Wall -Werror -Wextra -g3
 
-SRCS	= pipex.c parsing.c forks.c cleanup.c ./lst_functions/ft_lst.c \
+SRCS	= pipex.c parsing.c forks.c cleanup.c errors.c ./lst_functions/ft_lst.c \
 
 LIB_DIR	= libft
 

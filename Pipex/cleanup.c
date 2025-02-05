@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:33:23 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/04 17:41:20 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/05 04:44:23 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,7 @@ void	close_pipefd_exept(t_file *file, int keep_p1, int keep_fd1, int p2_fd2)
 	}
 }
 
-void	error_exit(char *msg, t_file *file, t_cmd **list_cmd)
-{
-	int	i;
-
-	i = 0;
-	ft_lstclear(list_cmd);
-	if (file)
-	{
-		if (file->pids)
-			free(file->pids);
-		if (file->pipefd)
-		{
-			while (i < file->nb_cmd - 1)
-				free(file->pipefd[i++]);
-			free(file->pipefd);
-		}
-	}
-	ft_putstr_fd(msg, 2);
-	exit(EXIT_FAILURE);
-}
-
-static void	free_pipes_and_exit(t_file *file, t_cmd **list_cmd, int i)
+void	free_pipes_and_exit(t_file *file, t_cmd **list_cmd, int i)
 {
 	int	j;
 
@@ -72,38 +51,23 @@ static void	free_pipes_and_exit(t_file *file, t_cmd **list_cmd, int i)
 	error_exit("Error malloc pipefd", file, list_cmd);
 }
 
-static void	close_pipes_and_exit(t_file *file, t_cmd **list_cmd, int i)
-{
-	int	j;
-
-	j = 0;
-	while (j < i)
-	{
-		close(file->pipefd[j][0]);
-		close(file->pipefd[j][1]);
-		j++;
-	}
-	error_exit(strerror(errno), file, list_cmd);
-}
-
-void	init_fd_and_pids(t_file *file, t_cmd **list_cmd)
+void	wait_and_finishing_up(t_file *file, t_cmd **list_cmd)
 {
 	int	i;
 
 	i = 0;
-	file->pipefd = malloc(sizeof(int *) * (file->nb_cmd - 1));
-	if (!file->pipefd)
-		error_exit("Error malloc pipefd", file, list_cmd);
-	file->pids = malloc(sizeof(pid_t) * file->nb_cmd);
-	if (!file->pids)
-		error_exit("Error malloc pids", file, list_cmd);
-	while (i < file->nb_cmd - 1)
+	waitpid(file->pid_hd, NULL, 0);
+	while (i < file->nb_cmd)
+		waitpid(file->pids[i++], NULL, 0);
+	ft_lstclear(list_cmd);
+	if (file->pids)
+		free(file->pids);
+	i = 0;
+	if (file->pipefd)
 	{
-		file->pipefd[i] = malloc(sizeof(int) * 2);
-		if (!file->pipefd[i])
-			free_pipes_and_exit(file, list_cmd, i);
-		if (pipe(file->pipefd[i]) == -1)
-			close_pipes_and_exit(file, list_cmd, i);
-		i++;
+		while (i < file->nb_cmd - 1)
+			free(file->pipefd[i++]);
+		free(file->pipefd);
 	}
+	exit(0);
 }

@@ -6,23 +6,29 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:22:44 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/05 00:01:06 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/05 05:16:33 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	exit_if_error_fork(t_file *file, t_cmd **list_cmd)
+static void	execute_command(t_cmd *cmd, t_file *file, t_cmd **list_cmd)
 {
-	if (file->here_doc == 0)
-		close(file->infile);
-	close(file->outfile);
-	close_pipefd_exept(file, -1, -1, -1);
+	if (file->cmd_found == 0)
+	{
+		ft_putstr_fd(cmd->cmd_args[0], 2);
+		error_exit(": command not found\n", file, list_cmd);
+	}
+	ft_putnbr_fd(file->cmd_found, 2);
+	execve(cmd->path, cmd->cmd_args, file->envp);
 	error_exit(strerror(errno), file, list_cmd);
 }
 
 static void	child_first_fork(t_file *file, t_cmd **list_cmd)
 {
+	t_cmd	*cmd;
+
+	cmd = *list_cmd;
 	if (file->here_doc == 1)
 	{
 		dup2(file->pipe_fd_hd[0], STDIN_FILENO);
@@ -36,8 +42,7 @@ static void	child_first_fork(t_file *file, t_cmd **list_cmd)
 	dup2(file->pipefd[0][1], STDOUT_FILENO);
 	close_pipefd_exept(file, 0, 1, -1);
 	close(file->outfile);
-	execve((*list_cmd)->path, (*list_cmd)->cmd_args, file->envp);
-	error_exit(strerror(errno), file, list_cmd);
+	execute_command(cmd, file, list_cmd);
 }
 
 void	first_fork(t_file *file, t_cmd **list_cmd)
@@ -73,8 +78,7 @@ void	create_forks_loop(t_file *file, t_cmd **list_cmd)
 				close(file->infile);
 			close(file->outfile);
 			close_pipefd_exept(file, file->i, 0, ((file->i + 1) * 10) + 1);
-			execve(cmd->path, cmd->cmd_args, file->envp);
-			error_exit(strerror(errno), file, list_cmd);
+			execute_command(cmd, file, list_cmd);
 		}
 		close(file->pipefd[file->i][0]);
 		close(file->pipefd[file->i + 1][1]);
@@ -99,8 +103,7 @@ void	last_fork(t_file *file, t_cmd **list_cmd)
 		dup2(file->outfile, STDOUT_FILENO);
 		close(file->outfile);
 		close_pipefd_exept(file, file->i, 0, -1);
-		execve(cmd_last->path, cmd_last->cmd_args, file->envp);
-		error_exit(strerror(errno), file, list_cmd);
+		execute_command(cmd_last, file, list_cmd);
 	}
 	else
 	{
