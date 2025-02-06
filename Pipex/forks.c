@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:22:44 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/06 04:11:12 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/06 23:59:43 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,18 @@ static void	execute_command(t_cmd *cmd, t_file *file, t_cmd **list_cmd)
 		ft_putstr_fd(cmd->cmd_args[0], 2);
 		error_exit(": command not found\n", file, list_cmd);
 	}
+	if (cmd->cmd_found == 2)
+	{
+		file->i = 0;
+		close_pipefd_exept(file, -1, -1, -1);
+		ft_putstr_fd(cmd->cmd_args[0], 2);
+		error_exit(": permission denied\n", file, list_cmd);
+	}
 	execve(cmd->path, cmd->cmd_args, file->envp);
-	error_exit(strerror(errno), file, list_cmd);
+	file->i = 0;
+	close_pipefd_exept(file, -1, -1, -1);
+	ft_putstr_fd(cmd->cmd_args[0], 2);
+	error_exit(": Exec format error\n", file, list_cmd);
 }
 
 static void	child_first_fork(t_file *file, t_cmd **list_cmd)

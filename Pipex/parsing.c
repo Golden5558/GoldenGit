@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:40:58 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/06 04:49:16 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/06 23:22:54 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static char	*find_cmd_path(char **cmd_args, char **envp, int *cmf)
 			*cmf = 1;
 			return (ft_strdup(cmd_args[0]));
 		}
+		if (access(cmd_args[0], F_OK) == 0)
+			*cmf = 2;
 		return (NULL);
 	}
 	return (get_path_envp(cmd_args[0], envp, cmf));
