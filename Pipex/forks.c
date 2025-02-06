@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:22:44 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/06 23:59:43 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/07 00:33:00 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,14 @@ void	first_fork(t_file *file, t_cmd **list_cmd)
 		exit_if_error_fork(file, list_cmd);
 	if (file->pids[0] == 0)
 		child_first_fork(file, list_cmd);
-	if (file->here_doc == 0 && file->infile_access == 0)
-		close(file->infile);
 	else
-		close(file->pipe_fd_hd[0]);
-	close(file->pipefd[0][1]);
+	{
+		if (file->here_doc == 0 && file->infile_access == 0)
+			close(file->infile);
+		else if (file->here_doc == 1)
+			close(file->pipe_fd_hd[0]);
+		close(file->pipefd[0][1]);
+	}
 }
 
 void	create_forks_loop(t_file *file, t_cmd **list_cmd)
