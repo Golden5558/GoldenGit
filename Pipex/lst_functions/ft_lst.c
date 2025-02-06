@@ -6,13 +6,13 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:08:27 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/02 17:57:34 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/06 01:34:45 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lst.h"
 
-t_cmd	*ft_lstnew(char *path, char **cmd_args, int index)
+t_cmd	*ft_lstnew(char *path, char **cmd_args, int index, int cmd_found)
 {
 	t_cmd	*data;
 
@@ -21,6 +21,7 @@ t_cmd	*ft_lstnew(char *path, char **cmd_args, int index)
 		return (NULL);
 	data->path = path;
 	data->cmd_args = cmd_args;
+	data->cmd_found = cmd_found;
 	data->index = index;
 	data->next = NULL;
 	return (data);

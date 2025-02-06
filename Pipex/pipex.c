@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:08:24 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/05 04:50:58 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/06 03:23:59 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	pipe_here_doc(t_file *file, t_cmd **list_cmd)
 		free(file->pipefd);
 		exit(0);
 	}
+	waitpid(file->pid_hd, NULL, 0);
 	close(file->pipe_fd_hd[1]);
 }
 
@@ -73,9 +74,9 @@ static void	open_files(char **argv, int ac, t_file *file)
 		if (file->infile < 0)
 		{
 			if (access(argv[1], F_OK) == -1)
-				file->infile = 2; // Do not exist
+				file->infile_access = 2;
 			else
-				file->infile_access = 1; // Perm denied
+				file->infile_access = 1;
 		}
 		file->outfile = open(argv[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (file->outfile < 0)
@@ -125,7 +126,7 @@ int	main(int argc, char **argv, char **envp)
 	pars_cmds(argv, envp, &file, &list_cmd);
 	init_fd_and_pids(&file, &list_cmd);
 	open_files(argv, argc, &file);
-	if (file.infile_access > 0 || file.outfile_access > 0)
+	if (file.infile < 0 || file.outfile < 0)
 		error_file_access(&file, &list_cmd);
 	if (file.here_doc == 1)
 		pipe_here_doc(&file, &list_cmd);

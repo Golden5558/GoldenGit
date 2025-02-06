@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:22:44 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/05 05:16:33 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/06 04:11:12 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 static void	execute_command(t_cmd *cmd, t_file *file, t_cmd **list_cmd)
 {
-	if (file->cmd_found == 0)
+	if (cmd->cmd_found == 0)
 	{
+		file->i = 0;
+		close_pipefd_exept(file, -1, -1, -1);
 		ft_putstr_fd(cmd->cmd_args[0], 2);
 		error_exit(": command not found\n", file, list_cmd);
 	}
-	ft_putnbr_fd(file->cmd_found, 2);
 	execve(cmd->path, cmd->cmd_args, file->envp);
 	error_exit(strerror(errno), file, list_cmd);
 }
@@ -36,8 +37,11 @@ static void	child_first_fork(t_file *file, t_cmd **list_cmd)
 	}
 	else
 	{
-		dup2(file->infile, STDIN_FILENO);
-		close(file->infile);
+		if (file->infile_access == 0)
+		{
+			dup2(file->infile, STDIN_FILENO);
+			close(file->infile);
+		}
 	}
 	dup2(file->pipefd[0][1], STDOUT_FILENO);
 	close_pipefd_exept(file, 0, 1, -1);
@@ -52,7 +56,7 @@ void	first_fork(t_file *file, t_cmd **list_cmd)
 		exit_if_error_fork(file, list_cmd);
 	if (file->pids[0] == 0)
 		child_first_fork(file, list_cmd);
-	if (file->here_doc == 0)
+	if (file->here_doc == 0 && file->infile_access == 0)
 		close(file->infile);
 	else
 		close(file->pipe_fd_hd[0]);
@@ -74,7 +78,7 @@ void	create_forks_loop(t_file *file, t_cmd **list_cmd)
 		{
 			dup2(file->pipefd[file->i][0], STDIN_FILENO);
 			dup2(file->pipefd[file->i + 1][1], STDOUT_FILENO);
-			if (file->here_doc == 0)
+			if (file->here_doc == 0 && file->infile_access == 0)
 				close(file->infile);
 			close(file->outfile);
 			close_pipefd_exept(file, file->i, 0, ((file->i + 1) * 10) + 1);
@@ -97,7 +101,7 @@ void	last_fork(t_file *file, t_cmd **list_cmd)
 		exit_if_error_fork(file, list_cmd);
 	if (file->pids[file->nb_cmd - 1] == 0)
 	{
-		if (file->here_doc == 0)
+		if (file->here_doc == 0 && file->infile_access == 0)
 			close(file->infile);
 		dup2(file->pipefd[file->i][0], STDIN_FILENO);
 		dup2(file->outfile, STDOUT_FILENO);

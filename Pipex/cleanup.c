@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:33:23 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/05 04:44:23 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/06 04:27:06 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,17 @@ void	free_pipes_and_exit(t_file *file, t_cmd **list_cmd, int i)
 
 	j = 0;
 	while (j < i)
+	{
+		close(file->pipefd[j][0]);
+		close(file->pipefd[j][1]);
+		j++;
+	}
+	j = 0;
+	while (j < i)
 		free(file->pipefd[j++]);
 	free(file->pipefd);
 	file->pipefd = NULL;
-	error_exit("Error malloc pipefd", file, list_cmd);
+	error_exit("Error init pipefd\n", file, list_cmd);
 }
 
 void	wait_and_finishing_up(t_file *file, t_cmd **list_cmd)
@@ -56,7 +63,6 @@ void	wait_and_finishing_up(t_file *file, t_cmd **list_cmd)
 	int	i;
 
 	i = 0;
-	waitpid(file->pid_hd, NULL, 0);
 	while (i < file->nb_cmd)
 		waitpid(file->pids[i++], NULL, 0);
 	ft_lstclear(list_cmd);
