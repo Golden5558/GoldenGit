@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 03:33:45 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/07 16:46:54 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:30:08 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,23 @@ void	verif_file_access(t_file *file, t_cmd **list_cmd)
 		{
 			ft_putstr_fd(file->argv[1], 2);
 			ft_putstr_fd(": Permission denied\n", 2);
+			if (file->infile_access == 0)
+				close(file->infile);
+			if (file->outfile_access == 0)
+				close(file->outfile);
+			close_pipefd_exept(file, -1, -1, -1);
+			error_exit("", file, list_cmd);
 		}
 		else if (file->infile_access == 2)
 		{
 			ft_putstr_fd(file->argv[1], 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
+			if (file->infile_access == 0)
+				close(file->infile);
+			if (file->outfile_access == 0)
+				close(file->outfile);
+			close_pipefd_exept(file, -1, -1, -1);
+			error_exit("", file, list_cmd);
 		}
 	}
 	if (file->outfile_access == 1)

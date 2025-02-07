@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:40:58 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/06 23:22:54 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:43:34 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static char	*get_path_envp(char *cmd, char **envp, int *cmf)
 
 static char	*find_cmd_path(char **cmd_args, char **envp, int *cmf)
 {
+	if (!cmd_args || !(*cmd_args))
+		return (NULL);
 	if (ft_strchr(cmd_args[0], '/'))
 	{
 		if (access(cmd_args[0], X_OK) == 0)
@@ -69,9 +71,6 @@ void	pars_cmds(char **argv, char **envp, t_file *file, t_cmd **list_cmd)
 	{
 		cmd_found = 0;
 		cmd_args = ft_split(argv[file->start_cmd++], ' ');
-		if (!cmd_args || !(*cmd_args))
-			return (ft_free_all(cmd_args),
-				error_exit("Error : Parsing cmd_args\n", file, list_cmd));
 		path = find_cmd_path(cmd_args, envp, &cmd_found);
 		tmp = ft_lstnew(path, cmd_args, i++, cmd_found);
 		if (!tmp)
