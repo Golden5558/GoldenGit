@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:40:58 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/07 17:43:34 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:19:05 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*get_path_envp(char *cmd, char **envp, int *cmf)
 	while (*envp && ft_strncmp(*envp, "PATH=", 5) != 0)
 		envp++;
 	path = ft_split(*envp, ':');
-	while (path[i])
+	while (path && path[i])
 	{
 		tmp = ft_strjoin(path[i], "/");
 		if (!tmp)

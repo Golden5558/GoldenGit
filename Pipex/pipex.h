@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:08:32 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/07 16:46:54 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:15:47 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,12 @@ void	last_fork(t_file *file, t_cmd **list_cmd);
 void	wait_and_finishing_up(t_file *file, t_cmd **list_cmd);
 
 #endif
+
+
+// void pipe(int has_pipe, int *fd, int end)
+// {
+// 	if (has_pipe && (dup2(fd[end], end) == - 1) || close(fd[1])== -1 || close(fd[0]) == -1)
+// 		exit(1)
+// }
+
+// add bonus rule + split mandatory
