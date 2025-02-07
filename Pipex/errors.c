@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 03:33:45 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/07 17:30:08 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:50:04 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ void	error_exit(char *msg, t_file *file, t_cmd **list_cmd)
 	exit(0);
 }
 
+static void	close_all_fds_and_exit(t_file *file, t_cmd **list_cmd)
+{
+	if (file->infile_access == 0)
+		close(file->infile);
+	if (file->outfile_access == 0)
+		close(file->outfile);
+	close_pipefd_exept(file, -1, -1, -1);
+	error_exit("", file, list_cmd);
+}
+
 void	verif_file_access(t_file *file, t_cmd **list_cmd)
 {
 	if (file->here_doc == 0)
@@ -50,34 +60,19 @@ void	verif_file_access(t_file *file, t_cmd **list_cmd)
 		{
 			ft_putstr_fd(file->argv[1], 2);
 			ft_putstr_fd(": Permission denied\n", 2);
-			if (file->infile_access == 0)
-				close(file->infile);
-			if (file->outfile_access == 0)
-				close(file->outfile);
-			close_pipefd_exept(file, -1, -1, -1);
-			error_exit("", file, list_cmd);
+			close_all_fds_and_exit(file, list_cmd);
 		}
 		else if (file->infile_access == 2)
 		{
 			ft_putstr_fd(file->argv[1], 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
-			if (file->infile_access == 0)
-				close(file->infile);
-			if (file->outfile_access == 0)
-				close(file->outfile);
-			close_pipefd_exept(file, -1, -1, -1);
-			error_exit("", file, list_cmd);
+			close_all_fds_and_exit(file, list_cmd);
 		}
 	}
 	if (file->outfile_access == 1)
 	{
 		ft_putstr_fd(file->argv[file->argc - 1], 2);
 		ft_putstr_fd(": Permission denied\n", 2);
-		if (file->infile_access == 0)
-			close(file->infile);
-		if (file->outfile_access == 0)
-			close(file->outfile);
-		close_pipefd_exept(file, -1, -1, -1);
-		error_exit("", file, list_cmd);
+		close_all_fds_and_exit(file, list_cmd);
 	}
 }
