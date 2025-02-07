@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:08:32 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/06 04:23:39 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:46:54 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	free_pipes_and_exit(t_file *file, t_cmd **list_cmd, int i);
 
 void	init_fd_and_pids(t_file *file, t_cmd **list_cmd);
 void	pars_cmds(char **argv, char **envp, t_file *file, t_cmd **list_cmd);
-void	error_file_access(t_file *file, t_cmd **list_cmd);
+void	verif_file_access(t_file *file, t_cmd **list_cmd);
 
 // Forks :
 

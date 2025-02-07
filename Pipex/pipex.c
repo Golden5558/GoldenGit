@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:08:24 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/06 03:23:59 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:46:54 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	main(int argc, char **argv, char **envp)
 	init_fd_and_pids(&file, &list_cmd);
 	open_files(argv, argc, &file);
 	if (file.infile < 0 || file.outfile < 0)
-		error_file_access(&file, &list_cmd);
+		verif_file_access(&file, &list_cmd);
 	if (file.here_doc == 1)
 		pipe_here_doc(&file, &list_cmd);
 	first_fork(&file, &list_cmd);

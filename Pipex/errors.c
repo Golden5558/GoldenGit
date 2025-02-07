@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 03:33:45 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/06 04:27:58 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:46:54 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	error_exit(char *msg, t_file *file, t_cmd **list_cmd)
 	exit(0);
 }
 
-void	error_file_access(t_file *file, t_cmd **list_cmd)
+void	verif_file_access(t_file *file, t_cmd **list_cmd)
 {
 	if (file->here_doc == 0)
 	{
