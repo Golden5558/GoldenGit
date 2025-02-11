@@ -6,32 +6,91 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 05:19:09 by nberthal          #+#    #+#             */
-/*   Updated: 2024/12/04 20:56:30 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/11 01:44:37 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 #include <limits.h>
+#include <fcntl.h>
 
 int	main(void)
 {
-	char a = 'a';
-	printf(" = a");
-	ft_putnbr_base((int)a, "01");
-	printf("\n");
-	a = 'N';
-	printf(" = N");
-	ft_putnbr_base((int)a, "01");
-	printf("\n");
-	a = 'V';
-	printf(" = V");
-	ft_putnbr_base((int)a, "01");
-	printf("\n");
-	a = '\\';
-	printf(" = \\");
-	ft_putnbr_base((int)a, "01");
+	FILE *fd, *fd2;
+	int c;
+	int ret1, ret2;
+
+	fd = fopen("test_ft.txt", "w");
+	fd2 = fopen("test_orig.txt", "w");
+	if (fd == NULL || fd2 == NULL)
+	{
+		printf("Error opening files\n");
+		return (1);
+	}
+
+	// Test various format specifiers
+	ret1 = ft_fprintf(fd, "Test Char: %c\n", 'A');
+	ret2 = fprintf(fd2, "Test Char: %c\n", 'A');
+	printf("Char return values: ft=%d, orig=%d\n", ret1, ret2);
+
+	ret1 = ft_fprintf(fd, "Test String: %s\n", "Hello World");
+	ret2 = fprintf(fd2, "Test String: %s\n", "Hello World");
+	printf("String return values: ft=%d, orig=%d\n", ret1, ret2);
+
+	ret1 = ft_fprintf(fd, "Test Integer: %d\n", -42);
+	ret2 = fprintf(fd2, "Test Integer: %d\n", -42);
+	printf("Integer return values: ft=%d, orig=%d\n", ret1, ret2);
+
+	ret1 = ft_fprintf(fd, "Test Unsigned: %u\n", UINT_MAX);
+	ret2 = fprintf(fd2, "Test Unsigned: %u\n", UINT_MAX);
+	printf("Unsigned return values: ft=%d, orig=%d\n", ret1, ret2);
+
+	ret1 = ft_fprintf(fd, "Test Hex (lower): %x\n", 255);
+	ret2 = fprintf(fd2, "Test Hex (lower): %x\n", 255);
+	printf("Hex lower return values: ft=%d, orig=%d\n", ret1, ret2);
+
+	ret1 = ft_fprintf(fd, "Test Hex (upper): %X\n", 255);
+	ret2 = fprintf(fd2, "Test Hex (upper): %X\n", 255);
+	printf("Hex upper return values: ft=%d, orig=%d\n", ret1, ret2);
+
+	ret1 = ft_fprintf(fd, "Test Pointer: %p\n", (void*)&c);
+	ret2 = fprintf(fd2, "Test Pointer: %p\n", (void*)&c);
+	printf("Pointer return values: ft=%d, orig=%d\n", ret1, ret2);
+
+	ret1 = ft_fprintf(fd, "Test Percent: %%\n");
+	ret2 = fprintf(fd2, "Test Percent: %%\n");
+	printf("Percent return values: ft=%d, orig=%d\n", ret1, ret2);
+
+	ret1 = ft_fprintf(fd, "Test Mixed: %d %s %c\n", 42, "test", '!');
+	ret2 = fprintf(fd2, "Test Mixed: %d %s %c\n", 42, "test", '!');
+	printf("Mixed return values: ft=%d, orig=%d\n", ret1, ret2);
+
+	fclose(fd);
+	fclose(fd2);
+
+	printf("\nCheck files 'test_ft.txt' and 'test_orig.txt' to compare outputs\n");
+	return (0);
 }
+
+// int	main(void)
+// {
+// 	char a = 'a';
+// 	printf(" = a");
+// 	ft_putnbr_base((int)a, "01");
+// 	printf("\n");
+// 	a = 'N';
+// 	printf(" = N");
+// 	ft_putnbr_base((int)a, "01");
+// 	printf("\n");
+// 	a = 'V';
+// 	printf(" = V");
+// 	ft_putnbr_base((int)a, "01");
+// 	printf("\n");
+// 	a = '\\';
+// 	printf(" = \\");
+// 	ft_putnbr_base((int)a, "01");
+// }
 // ft_lstmap
 
 // void	*map_length(void *s)

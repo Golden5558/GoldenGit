@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 05:28:28 by nberthal          #+#    #+#             */
-/*   Updated: 2024/10/24 19:14:25 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/11 01:16:44 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	if (!s)
 		return ;
-	while (*s)
-		write(fd, s++, 1);
+	write(fd, s, ft_strlen(s));
+}
+
+void	ft_fputstr(FILE *file, char *s)
+{
+	if (!s)
+		return ;
+	fwrite(s, 1, ft_strlen(s), file);
 }

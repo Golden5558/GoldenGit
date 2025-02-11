@@ -23,6 +23,21 @@ static void	ft_getstr(char *s, long n)
 		*s = (n % 10) + '0';
 }
 
+int	ft_getdec(unsigned long long n, int base)
+{
+	int	i;
+
+	i = 0;
+	if (n == 0)
+		return (1);
+	while ((n / base) != 0)
+	{
+		n = n / base;
+		i++;
+	}
+	return (i + 1);
+}
+
 char	*ft_itoa(int n)
 {
 	char	*s;

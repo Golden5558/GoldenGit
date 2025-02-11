@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_fprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 06:08:43 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/11 01:28:44 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/11 01:23:48 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_print_chars(char arg, va_list ap)
+static int	ft_print_chars(FILE *stream, char arg, va_list ap)
 {
 	char	*str;
 
@@ -20,33 +20,33 @@ static int	ft_print_chars(char arg, va_list ap)
 	{
 		str = va_arg(ap, char *);
 		if (!str)
-			return (write(1, "(null)", 6));
-		ft_putstr_fd(str, 1);
+			return (fwrite("(null)", 1, 6, stream));
+		ft_fputstr(stream, str);
 		return (ft_strlen(str));
 	}
 	else if (arg == 'c')
 	{
-		ft_putchar_fd(va_arg(ap, int), 1);
+		ft_fputchar(stream, va_arg(ap, int));
 		return (1);
 	}
 	return (0);
 }
 
-static int	ft_printarg(const char *args, va_list ap)
+static int	ft_printarg(FILE *stream, const char *args, va_list ap)
 {
 	char	format;
 
 	format = args[1];
 	if (ft_strchr("diuxXp", format))
-		return (ft_print_num(format, ap));
+		return (ft_fprint_num(stream, format, ap));
 	if (ft_strchr("cs", format))
-		return (ft_print_chars(format, ap));
+		return (ft_print_chars(stream, format, ap));
 	if (format == '%')
-		return (write(1, "%", 1));
+		return (fwrite("%", 1, 1, stream));
 	return (0);
 }
 
-int	ft_printf(const char *args, ...)
+int	ft_fprintf(FILE *stream, const char *args, ...)
 {
 	va_list	ap;
 	int		c;
@@ -59,13 +59,13 @@ int	ft_printf(const char *args, ...)
 	{
 		if (*args == '%' && ft_strchr("cspdiuxX%", *(args + 1)))
 		{
-			c += ft_printarg(args, ap);
+			c += ft_printarg(stream, args, ap);
 			args += 2;
 		}
 		else if (*args == '%' && !ft_strchr("cspdiuxX%", *(args + 1)))
 			return (-1);
 		else
-			c += write(1, args++, 1);
+			c += fwrite(args++, 1, 1, stream);
 	}
 	return (va_end(ap), c);
 }

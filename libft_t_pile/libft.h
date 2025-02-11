@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:43:06 by nberthal          #+#    #+#             */
-/*   Updated: 2025/01/26 10:27:10 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/11 01:48:31 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <stdlib.h>
+# include <stdio.h>
 # include <limits.h>
 # include <stdarg.h>
 # include <unistd.h>
@@ -37,7 +38,7 @@ int		ft_isdigit(int c);
 int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
-int		ft_atoi_verif(const char *nptr, int *valid);
+int		ft_atoi(const char *nptr);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strchr(const char *s, int c);
@@ -50,7 +51,6 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-void	ft_bzero(void *s, size_t n);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
@@ -66,8 +66,16 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, char *src, size_t size);
 void	ft_putnbr_base(long long nbr, char *base);
 int		ft_printf(const char *args, ...)__attribute__((format(printf, 1, 2)));
-int		ft_print_hex_uint(char arg, va_list ap);
-int		ft_getdec(int n, int base);
+int		ft_print_num(char arg, va_list ap);
+int		ft_getdec(unsigned long long n, int base);
+
+// fprint functions :
+
+int		ft_fprintf(FILE *stream, const char *args, ...);
+int		ft_fprint_num(FILE *stream, char arg, va_list ap);
+void	fputnbr_base(FILE *stream, long long nbr, char *base);
+void	ft_fputstr(FILE *file, char *s);
+void	ft_fputchar(FILE *file, char c);
 
 //	Lst functions :
 
