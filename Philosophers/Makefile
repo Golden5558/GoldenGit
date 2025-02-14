@@ -16,7 +16,7 @@ SRC_DIR		:= src
 
 # Sources, Objects and Dependencies
 
-SRCS		:= philosophers.c lst_functions/ft_free_all.c lst_functions/ft_lst.c
+SRCS		:= ${LST_DIR}/ft_lst.c ${LST_DIR}/lst_utils.c philosophers.c
 OBJS		:= $(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
 DEPS		:= ${OBJS:.o=.d}
 

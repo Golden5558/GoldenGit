@@ -6,19 +6,20 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:08:27 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/12 05:47:36 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/14 01:40:41 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lst.h"
 
-t_philo	*ft_lstnew()
+t_philo	*ft_lstnew(pthread_t *thread_id)
 {
 	t_philo	*data;
 
 	data = malloc(sizeof(t_philo));
 	if (!data)
 		return (NULL);
+	data->tread_id = thread_id;
 	data->next = NULL;
 	return (data);
 }
