@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:23:12 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/15 02:27:24 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/15 02:54:57 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,7 @@ int		ft_lstsize(t_philo *lst);
 void	ft_lstclear(t_philo **lst);
 void	*ft_free_all(char **tab);
 int		ft_atoi(const char *nptr);
+size_t	ft_strlen(const char *s);
+void	ft_putstr_fd(char *s, int fd);
 
 #endif

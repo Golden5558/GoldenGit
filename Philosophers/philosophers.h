@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:17:07 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/15 02:33:51 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/15 02:59:16 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@
 
 // Parsing :
 
-t_philo	*init_philos(t_table *table);
-void	check_argv(t_table *table, char **argv);
+void	error_exit(char *msg, t_table *table, t_philo **philosophers);
+t_philo	*init_philosophers(t_table *table);
+void	pars_argv(t_table *table, char **argv);
 
 #endif

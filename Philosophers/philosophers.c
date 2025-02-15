@@ -6,13 +6,22 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:57 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/15 02:33:17 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/15 03:00:11 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	*time_loop(void *arg)
+void	error_exit(char *msg, t_table *table, t_philo **philosophers)
+{
+	if (table->forks)
+		free(table->forks);
+	ft_lstclear(philosophers);
+	ft_putstr_fd(msg, 2);
+	exit(0);
+}
+
+static void	*time_loop(void *arg)
 {
 	t_table			*table;
 	struct timeval	time;
@@ -27,7 +36,6 @@ void	*time_loop(void *arg)
 		gettimeofday(&time, NULL);
 		since_start = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 		table->time_in_ms = since_start - start;
-		// printf("Time : %lld\n", table->time_in_ms);
 	}
 	return (NULL);
 }
@@ -40,10 +48,11 @@ int	main(int argc, char **argv)
 	if (argc != 5)
 		return (printf("Wrong number of arguments\n"), 0);
 	memset(&table, 0, sizeof(t_table));
-	check_argv(&table, argv);
-	philosophers = init_philos(&table);
+	pars_argv(&table, argv);
+	philosophers = init_philosophers(&table);
 	if (!philosophers)
 		return (free(table.forks), 0);
 	pthread_create(&table.time_thread_id, NULL, time_loop, (void *)&table);
+	table.end = true;
 	pthread_join(table.time_thread_id, NULL);
 }
