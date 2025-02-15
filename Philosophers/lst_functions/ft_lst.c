@@ -6,20 +6,23 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:08:27 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/14 01:40:41 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/15 02:23:33 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_lst.h"
+#include "../includes/ft_lst.h"
 
-t_philo	*ft_lstnew(pthread_t *thread_id)
+t_philo	*ft_lstnew(t_fork *right_fork, t_fork *left_fork, int id)
 {
 	t_philo	*data;
 
 	data = malloc(sizeof(t_philo));
 	if (!data)
 		return (NULL);
-	data->tread_id = thread_id;
+	data->tread_id = 0;
+	data->id = id;
+	data->right_fork = right_fork;
+	data->left_fork = left_fork;
 	data->next = NULL;
 	return (data);
 }
@@ -45,7 +48,7 @@ t_philo	*ft_lstlast(t_philo *lst)
 {
 	if (!lst)
 		return (lst);
-	while (lst->next != NULL)
+	while (lst && lst->next != NULL)
 		lst = lst->next;
 	return (lst);
 }
@@ -69,7 +72,7 @@ void	ft_lstadd_back(t_philo **lst, t_philo *new)
 
 	if (!lst || !new)
 		return ;
-	if (!*lst)
+	if (!(*lst))
 		*lst = new;
 	else
 	{

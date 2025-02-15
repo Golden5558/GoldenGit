@@ -6,12 +6,14 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:17:07 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/14 02:25:52 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/15 02:33:51 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
+
+// Librairies :
 
 # include <stdlib.h>
 # include <sys/time.h>
@@ -24,23 +26,14 @@
 # include <sys/wait.h>
 # include <stdbool.h>
 
-# include "./lst_functions/ft_lst.h"
+// Includes :
 
-typedef struct s_fork
-{
-	int				id_fork;
-	bool			in_use;
-	pthread_mutex_t	lock;
-}	t_fork;
+# include "./includes/structures.h"
+# include "./includes/ft_lst.h"
 
-typedef struct s_table
-{
-	unsigned int	philosophers;
-	unsigned int	time_to_die;
-	unsigned int	time_to_eat;
-	unsigned int	time_to_sleep;
-	t_fork			*forks;
-	struct timeval	*time;
-}	t_table;
+// Parsing :
+
+t_philo	*init_philos(t_table *table);
+void	check_argv(t_table *table, char **argv);
 
 #endif

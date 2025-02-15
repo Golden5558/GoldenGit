@@ -5,11 +5,11 @@
 # Compilation
 NAME		:= philo
 CC			:= cc
-CFLAGS		:= -Wall -Werror -Wextra # -g3 -fsanitize=thread
+CFLAGS		:= -Wall -Werror -Wextra -g3 #-fsanitize=thread
 
 # Directory
 
-INCLUDE_DIR	:= . ./lst_functions
+INCLUDE_DIR	:= . ./includes
 LST_DIR		:= lst_functions
 OBJ_DIR		:= obj
 SRC_DIR		:= src
