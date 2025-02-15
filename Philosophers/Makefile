@@ -16,7 +16,8 @@ SRC_DIR		:= src
 
 # Sources
 
-SRCS		:= ${LST_DIR}/ft_lst.c ${LST_DIR}/ft_utils.c philosophers.c parsing.c
+SRCS		:= ${LST_DIR}/ft_lst.c ${LST_DIR}/ft_utils.c philosophers.c \
+			src/parsing.c src/thread_process.c
 
 # Objects and Dependencies
 

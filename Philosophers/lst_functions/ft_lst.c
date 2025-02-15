@@ -6,13 +6,13 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:08:27 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/15 02:23:33 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/15 05:48:58 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_lst.h"
 
-t_philo	*ft_lstnew(t_fork *right_fork, t_fork *left_fork, int id)
+t_philo	*ft_lstnew(t_fork *r_fork, t_fork *l_fork, t_table *table, int id)
 {
 	t_philo	*data;
 
@@ -21,8 +21,10 @@ t_philo	*ft_lstnew(t_fork *right_fork, t_fork *left_fork, int id)
 		return (NULL);
 	data->tread_id = 0;
 	data->id = id;
-	data->right_fork = right_fork;
-	data->left_fork = left_fork;
+	data->live = true;
+	data->table = table;
+	data->right_fork = r_fork;
+	data->left_fork = l_fork;
 	data->next = NULL;
 	return (data);
 }

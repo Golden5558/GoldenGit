@@ -6,17 +6,18 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:57 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/15 03:00:11 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/15 06:02:33 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	error_exit(char *msg, t_table *table, t_philo **philosophers)
+void	error_exit(char *msg, t_table *table, t_philo *philosophers)
 {
 	if (table->forks)
 		free(table->forks);
-	ft_lstclear(philosophers);
+	if (philosophers)
+		ft_lstclear(&philosophers);
 	ft_putstr_fd(msg, 2);
 	exit(0);
 }
@@ -43,7 +44,7 @@ static void	*time_loop(void *arg)
 int	main(int argc, char **argv)
 {
 	t_table	table;
-	t_philo	*philosophers;
+	t_philo *philosophers;
 
 	if (argc != 5)
 		return (printf("Wrong number of arguments\n"), 0);
