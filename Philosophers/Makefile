@@ -5,7 +5,7 @@
 # Compilation
 NAME		:= philo
 CC			:= cc
-CFLAGS		:= -Wall -Werror -Wextra -g3 #-fsanitize=thread
+CFLAGS		:= -Wall -Werror -Wextra -pthread#-g3 -fsanitize=thread
 
 # Directory
 

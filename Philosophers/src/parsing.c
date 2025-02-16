@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 02:32:41 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/16 00:24:29 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/16 04:18:55 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ void	pars_argv(t_table *table, char **argv)
 		error_exit("Error : Invalid number of philosophers\n", table, NULL);
 	table->time_to_die = ft_atoi(argv[2]);
 	if (table->time_to_die <= 0)
-		error_exit("Error : Invalid time to die\n", table, NULL);		
+		error_exit("Error : Invalid time to die\n", table, NULL);
 	table->time_to_eat = ft_atoi(argv[3]);
 	if (table->time_to_eat <= 0)
-		error_exit("Error : Invalid time to eat\n", table, NULL);	
+		error_exit("Error : Invalid time to eat\n", table, NULL);
 	table->time_to_sleep = ft_atoi(argv[4]);
 	if (table->time_to_sleep <= 0)
-		error_exit("Error : Invalid time to sleep\n", table, NULL);	
+		error_exit("Error : Invalid time to sleep\n", table, NULL);
 }
 
-t_philo *init_philosophers(t_table *table)
+t_philo	*init_philosophers(t_table *table)
 {
-	t_philo *philosophers;
+	t_philo	*philosophers;
 	t_philo	*temp;
 	int		i;
 
@@ -68,15 +68,16 @@ void	init_forks(t_table *table)
 	i = 0;
 	table->forks = malloc(sizeof(t_fork) * table->nb_philosophers);
 	if (!table->forks)
-		error_exit("Error : Malloc fork\n", table, NULL);
+		error_exit("Error malloc fork\n", table, NULL);
 	while (i < table->nb_philosophers)
 	{
-		if (!pthread_mutex_init(&table->forks[i].lock, NULL))
+		if (pthread_mutex_init(&table->forks[i].lock, NULL))
 		{
 			destroy_forks(table, i - 1);
-			error_exit("Error : Init mutex\n", table, NULL);
+			error_exit("Error initializing mutex\n", table, NULL);
 		}
 		table->forks[i].in_use = false;
-		table->forks[i].id_fork = i++;
+		table->forks[i].id_fork = i;
+		i++;
 	}
 }
