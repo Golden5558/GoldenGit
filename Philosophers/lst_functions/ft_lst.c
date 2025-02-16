@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:08:27 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/15 05:48:58 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/16 00:40:33 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_philo	*ft_lstnew(t_fork *r_fork, t_fork *l_fork, t_table *table, int id)
 	data->tread_id = 0;
 	data->id = id;
 	data->live = true;
+	data->last_meal = 0;
 	data->table = table;
 	data->right_fork = r_fork;
 	data->left_fork = l_fork;

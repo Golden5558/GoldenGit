@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 02:24:27 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/15 06:00:10 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/16 01:32:58 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_fork
 typedef struct s_table
 {
 	t_fork			*forks;
-	long long		nb_philosophers;
+	int				nb_philosophers;
 	long long		time_to_die;
 	long long		time_to_eat;
 	long long		time_to_sleep;
@@ -38,6 +38,7 @@ typedef struct s_philo
 {
 	int				id;
 	bool			live;
+	long long		last_meal;
 	pthread_t		tread_id;
 	t_fork			*right_fork;
 	t_fork			*left_fork;

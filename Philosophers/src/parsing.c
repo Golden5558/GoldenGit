@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 02:32:41 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/15 06:01:57 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/16 00:24:29 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ void	pars_argv(t_table *table, char **argv)
 	table->time_to_sleep = ft_atoi(argv[4]);
 	if (table->time_to_sleep <= 0)
 		error_exit("Error : Invalid time to sleep\n", table, NULL);	
-	table->forks = malloc(sizeof(t_fork) * table->nb_philosophers);
-	if (!table->forks)
-		error_exit("Error : Malloc fork\n", table, NULL);
 }
 
 t_philo *init_philosophers(t_table *table)
@@ -37,14 +34,14 @@ t_philo *init_philosophers(t_table *table)
 	t_philo	*temp;
 	int		i;
 
-	i = 0;
+	i = 1;
 	philosophers = NULL;
-	while ((long long)i < table->nb_philosophers)
+	while (i <= table->nb_philosophers)
 	{
-		if ((long long)i < table->nb_philosophers - 1)
-			temp = ft_lstnew(&table->forks[i], &table->forks[i + 1], table, i);
+		if (i < table->nb_philosophers)
+			temp = ft_lstnew(&table->forks[i - 1], &table->forks[i], table, i);
 		else
-			temp = ft_lstnew(&table->forks[i], &table->forks[0], table, i);
+			temp = ft_lstnew(&table->forks[i - 1], &table->forks[0], table, i);
 		if (!temp)
 			return (ft_lstclear(&philosophers), NULL);
 		ft_lstadd_back(&philosophers, temp);
@@ -53,4 +50,33 @@ t_philo *init_philosophers(t_table *table)
 	return (philosophers);
 }
 
-// init mutex (to protect)
+void	destroy_forks(t_table *table, int nb_forks)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_forks)
+		pthread_mutex_destroy(&table->forks[i++].lock);
+	free(table->forks);
+	table->forks = NULL;
+}
+
+void	init_forks(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	table->forks = malloc(sizeof(t_fork) * table->nb_philosophers);
+	if (!table->forks)
+		error_exit("Error : Malloc fork\n", table, NULL);
+	while (i < table->nb_philosophers)
+	{
+		if (!pthread_mutex_init(&table->forks[i].lock, NULL))
+		{
+			destroy_forks(table, i - 1);
+			error_exit("Error : Init mutex\n", table, NULL);
+		}
+		table->forks[i].in_use = false;
+		table->forks[i].id_fork = i++;
+	}
+}

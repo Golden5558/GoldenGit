@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:57 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/15 06:02:33 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/15 06:12:37 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,7 @@ int	main(int argc, char **argv)
 	pthread_create(&table.time_thread_id, NULL, time_loop, (void *)&table);
 	table.end = true;
 	pthread_join(table.time_thread_id, NULL);
+	ft_lstclear(&philosophers);
+	free(table.forks);
+	return (0);
 }
