@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:43:06 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/11 01:48:31 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/17 15:32:30 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,13 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+void	ft_putnbr_base_fd(long long nbr, char *base, int fd);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, char *src, size_t size);
-void	ft_putnbr_base(long long nbr, char *base);
-int		ft_printf(const char *args, ...)__attribute__((format(printf, 1, 2)));
-int		ft_print_num(char arg, va_list ap);
+int		ft_printfd(int fd, const char *args, ...);
+int		ft_print_num(int fd, char arg, va_list ap);
 int		ft_getdec(unsigned long long n, int base);
-
-// fprint functions :
-
-int		ft_fprintf(FILE *stream, const char *args, ...);
-int		ft_fprint_num(FILE *stream, char arg, va_list ap);
-void	fputnbr_base(FILE *stream, long long nbr, char *base);
-void	ft_fputstr(FILE *file, char *s);
-void	ft_fputchar(FILE *file, char c);
 
 //	Lst functions :
 

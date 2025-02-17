@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
+/*   ft_putnbr_base_fd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 01:59:45 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/11 01:38:15 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/17 15:33:36 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	check_base(char *base)
 	return (len);
 }
 
-void	ft_putnbr_base(long long nbr, char *base)
+void	ft_putnbr_base_fd(long long nbr, char *base, int fd)
 {
 	int	base_len;
 
@@ -46,41 +46,17 @@ void	ft_putnbr_base(long long nbr, char *base)
 		return ;
 	if (nbr == -LLONG_MIN)
 	{
-		write(1, "-", 1);
-		ft_putnbr_base(-(nbr / base_len), base);
-		ft_putchar_fd(base[-(nbr % base_len)], 1);
+		write(fd, "-", 1);
+		ft_putnbr_base_fd(-(nbr / base_len), base, fd);
+		ft_putchar_fd(base[-(nbr % base_len)], fd);
 		return ;
 	}
 	if (nbr < 0)
 	{
-		write(1, "-", 1);
+		write(fd, "-", 1);
 		nbr = -nbr;
 	}
 	if (nbr >= base_len)
-		ft_putnbr_base((nbr / base_len), base);
-	ft_putchar_fd(base[nbr % base_len], 1);
-}
-
-void	fputnbr_base(FILE *stream, long long nbr, char *base)
-{
-	int	base_len;
-
-	base_len = check_base(base);
-	if (base_len == -1)
-		return ;
-	if (nbr == -LLONG_MIN)
-	{
-		fwrite("-", 1, 1, stream);
-		fputnbr_base(stream, -(nbr / base_len), base);
-		ft_fputchar(stream, base[-(nbr % base_len)]);
-		return ;
-	}
-	if (nbr < 0)
-	{
-		fwrite("-", 1, 1, stream);
-		nbr = -nbr;
-	}
-	if (nbr >= base_len)
-		fputnbr_base(stream, (nbr / base_len), base);
-	ft_fputchar(stream, base[nbr % base_len]);
+		ft_putnbr_base_fd((nbr / base_len), base, fd);
+	ft_putchar_fd(base[nbr % base_len], fd);
 }

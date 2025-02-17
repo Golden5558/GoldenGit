@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 05:19:09 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/11 01:44:37 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/17 15:35:49 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,57 +17,57 @@
 
 int	main(void)
 {
-	FILE *fd, *fd2;
+	int fd1, fd2;
 	int c;
 	int ret1, ret2;
 
-	fd = fopen("test_ft.txt", "w");
-	fd2 = fopen("test_orig.txt", "w");
-	if (fd == NULL || fd2 == NULL)
+	fd1 = open("test_ft.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd2 = open("test_orig.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd1 < 0 || fd2 < 0)
 	{
 		printf("Error opening files\n");
 		return (1);
 	}
 
 	// Test various format specifiers
-	ret1 = ft_fprintf(fd, "Test Char: %c\n", 'A');
-	ret2 = fprintf(fd2, "Test Char: %c\n", 'A');
+	ret1 = ft_printfd(fd1, "Test Char: %c\n", 'A');
+	ret2 = dprintf(fd2, "Test Char: %c\n", 'A');
 	printf("Char return values: ft=%d, orig=%d\n", ret1, ret2);
 
-	ret1 = ft_fprintf(fd, "Test String: %s\n", "Hello World");
-	ret2 = fprintf(fd2, "Test String: %s\n", "Hello World");
+	ret1 = ft_printfd(fd1, "Test String: %s\n", "Hello World");
+	ret2 = dprintf(fd2, "Test String: %s\n", "Hello World");
 	printf("String return values: ft=%d, orig=%d\n", ret1, ret2);
 
-	ret1 = ft_fprintf(fd, "Test Integer: %d\n", -42);
-	ret2 = fprintf(fd2, "Test Integer: %d\n", -42);
+	ret1 = ft_printfd(fd1, "Test Integer: %d\n", -42);
+	ret2 = dprintf(fd2, "Test Integer: %d\n", -42);
 	printf("Integer return values: ft=%d, orig=%d\n", ret1, ret2);
 
-	ret1 = ft_fprintf(fd, "Test Unsigned: %u\n", UINT_MAX);
-	ret2 = fprintf(fd2, "Test Unsigned: %u\n", UINT_MAX);
+	ret1 = ft_printfd(fd1, "Test Unsigned: %u\n", UINT_MAX);
+	ret2 = dprintf(fd2, "Test Unsigned: %u\n", UINT_MAX);
 	printf("Unsigned return values: ft=%d, orig=%d\n", ret1, ret2);
 
-	ret1 = ft_fprintf(fd, "Test Hex (lower): %x\n", 255);
-	ret2 = fprintf(fd2, "Test Hex (lower): %x\n", 255);
+	ret1 = ft_printfd(fd1, "Test Hex (lower): %x\n", 255);
+	ret2 = dprintf(fd2, "Test Hex (lower): %x\n", 255);
 	printf("Hex lower return values: ft=%d, orig=%d\n", ret1, ret2);
 
-	ret1 = ft_fprintf(fd, "Test Hex (upper): %X\n", 255);
-	ret2 = fprintf(fd2, "Test Hex (upper): %X\n", 255);
+	ret1 = ft_printfd(fd1, "Test Hex (upper): %X\n", 255);
+	ret2 = dprintf(fd2, "Test Hex (upper): %X\n", 255);
 	printf("Hex upper return values: ft=%d, orig=%d\n", ret1, ret2);
 
-	ret1 = ft_fprintf(fd, "Test Pointer: %p\n", (void*)&c);
-	ret2 = fprintf(fd2, "Test Pointer: %p\n", (void*)&c);
+	ret1 = ft_printfd(fd1, "Test Pointer: %p\n", (void*)&c);
+	ret2 = dprintf(fd2, "Test Pointer: %p\n", (void*)&c);
 	printf("Pointer return values: ft=%d, orig=%d\n", ret1, ret2);
 
-	ret1 = ft_fprintf(fd, "Test Percent: %%\n");
-	ret2 = fprintf(fd2, "Test Percent: %%\n");
+	ret1 = ft_printfd(fd1, "Test Percent: %%\n");
+	ret2 = dprintf(fd2, "Test Percent: %%\n");
 	printf("Percent return values: ft=%d, orig=%d\n", ret1, ret2);
 
-	ret1 = ft_fprintf(fd, "Test Mixed: %d %s %c\n", 42, "test", '!');
-	ret2 = fprintf(fd2, "Test Mixed: %d %s %c\n", 42, "test", '!');
+	ret1 = ft_printfd(fd1, "Test Mixed: %d %s %c\n", 42, "test", '!');
+	ret2 = dprintf(fd2, "Test Mixed: %d %s %c\n", 42, "test", '!');
 	printf("Mixed return values: ft=%d, orig=%d\n", ret1, ret2);
 
-	fclose(fd);
-	fclose(fd2);
+	close(fd1);
+	close(fd2);
 
 	printf("\nCheck files 'test_ft.txt' and 'test_orig.txt' to compare outputs\n");
 	return (0);
