@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:43:06 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/17 15:32:30 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/02/18 08:51:25 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ typedef struct s_pile
 	struct s_pile	*prev;
 	struct s_pile	*next;
 }	t_pile;
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
+typedef struct s_list
+{
+	char		*stock;
+	char		*buffer;
+	int			read_size;
+	int			len_stock;
+	int			i;
+}	t_list;
 
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
@@ -57,6 +70,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
+void	*ft_free_all(char **tab);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
@@ -68,6 +82,12 @@ size_t	ft_strlcat(char *dest, char *src, size_t size);
 int		ft_printfd(int fd, const char *args, ...);
 int		ft_print_num(int fd, char arg, va_list ap);
 int		ft_getdec(unsigned long long n, int base);
+
+// Get_next_line :
+
+char	*get_next_line(int fd);
+char	*ft_strjoin_and_free(char *s1, char *s2);
+char	*ft_substr_free(char *s, unsigned int start, size_t len, char *b);
 
 //	Lst functions :
 

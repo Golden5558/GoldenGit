@@ -13,7 +13,7 @@ SRC = ft_atoi.c ft_itoa.c ft_calloc.c ft_split.c ft_substr.c ft_strdup.c \
 	ft_strncmp.c  ft_strjoin.c ft_strtrim.c ft_strmapi.c ft_striteri.c \
 	ft_tolower.c ft_toupper.c ft_putendl_fd.c \
 	ft_putnbr_fd.c ft_putnbr_base_fd.c ft_putchar_fd.c ft_putstr_fd.c \
-	ft_printfd.c ft_printfd_utils.c
+	ft_printfd.c ft_printfd_utils.c get_next_line.c get_next_line_utils.c
 
 SRC2 = ft_lst_main.c ft_lst_secondary.c \
 

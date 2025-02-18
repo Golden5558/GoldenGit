@@ -1,9 +1,0 @@
-Test Char: A
-Test String: Hello World
-Test Integer: -42
-Test Unsigned: 4294967295
-Test Hex (lower): ff
-Test Hex (upper): FF
-Test Pointer: 0x7fff80f3a380
-Test Percent: %
-Test Mixed: 42 test !
