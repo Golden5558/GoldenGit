@@ -6,7 +6,7 @@
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 02:24:27 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/16 01:32:58 by nberthal         ###   ########.fr       */
+/*   Updated: 2025/04/27 07:38:45 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,48 @@
 
 # include "../philosophers.h"
 
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define TAKE "has taken a fork"
+# define THINK "is thinking"
+
+typedef enum s_action
+{
+	EATING,
+	SLEEPING,
+	NOTHING
+}					t_action;
+
 typedef struct s_fork
 {
 	int				id_fork;
-	bool			in_use;
 	pthread_mutex_t	lock;
-}	t_fork;
+}					t_fork;
 
 typedef struct s_table
 {
-	t_fork			*forks;
-	int				nb_philosophers;
+	bool			end;
+	int				nb_philo;
+	int				to_eat;
 	long long		time_to_die;
 	long long		time_to_eat;
 	long long		time_to_sleep;
-	long long		time_in_ms;
-	pthread_t		time_thread_id;
-	bool			end;
-}	t_table;
+	long long		start_time;
+	pthread_mutex_t	end_lock;
+	t_fork			*forks;
+}					t_table;
 
 typedef struct s_philo
 {
+	bool			finished;
 	int				id;
-	bool			live;
+	int				eaten;
 	long long		last_meal;
 	pthread_t		tread_id;
+	pthread_mutex_t	state_lock;
 	t_fork			*right_fork;
 	t_fork			*left_fork;
 	t_table			*table;
-	struct s_philo	*next;
-}	t_philo;
+}					t_philo;
 
 #endif

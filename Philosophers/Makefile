@@ -3,25 +3,25 @@
 # **************************************************************************** #
 
 # Compilation
+
 NAME		:= philo
 CC			:= cc
-CFLAGS		:= -Wall -Werror -Wextra -pthread#-g3 -fsanitize=thread
+CFLAGS		:= -Wall -Werror -Wextra -pthread -g3
 
 # Directory
 
 INCLUDE_DIR	:= . ./includes
-LST_DIR		:= lst_functions
 OBJ_DIR		:= obj
 SRC_DIR		:= src
 
 # Sources
 
-SRCS		:= ${LST_DIR}/ft_lst.c ${LST_DIR}/ft_utils.c philosophers.c \
-			src/parsing.c src/thread_process.c
+SRCS		:= philosophers.c src/cleanup.c src/parsing.c src/tools.c \
+			src/thread_process.c src/thread_utils.c
 
 # Objects and Dependencies
 
-OBJS		:= $(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
+OBJS		:= $(patsubst %.c, ${OBJ_DIR}/%.o, $(notdir ${SRCS}))
 DEPS		:= ${OBJS:.o=.d}
 
 # **************************************************************************** #
@@ -45,19 +45,13 @@ $(NAME): $(OBJS)
 ${OBJ_DIR}:
 	@mkdir -p $(OBJ_DIR)
 
-${OBJ_DIR}/%.o: ${SRC_DIR}/%.c | ${OBJ_DIR}
-	@echo "$(YELLOW)[🔄] Compiling: $< $(RESET)"
-	@${CC} ${CFLAGS} $(foreach dir, ${INCLUDE_DIR}, -I$(dir)) -MMD -c $< -o $@
-
-${OBJ_DIR}/%.o: ${LST_DIR}/%.c | ${OBJ_DIR}
-	@echo "$(YELLOW)[🔄] Compiling: $< $(RESET)"
-	@${CC} ${CFLAGS} $(foreach dir, ${INCLUDE_DIR}, -I$(dir)) -MMD -c $< -o $@
-
 ${OBJ_DIR}/%.o: %.c | ${OBJ_DIR}
 	@echo "$(YELLOW)[🔄] Compiling: $< $(RESET)"
 	@${CC} ${CFLAGS} $(foreach dir, ${INCLUDE_DIR}, -I$(dir)) -MMD -c $< -o $@
 
 -include $(DEPS)
+
+vpath %.c . ${SRC_DIR} ${LST_DIR}
 
 all: ${NAME}
 
@@ -72,4 +66,13 @@ re: fclean all
 norm:
 	norminette --use-gitignore
 
-.PHONY: all clean fclean re norm
+vg: ${NAME}
+	@echo "$(CYAN)[🔍] Starting Valgrind memory analysis...$(RESET)"
+	@valgrind -s --leak-check=full --show-leak-kinds=all \
+	--track-origins=yes --gen-suppressions=all --track-fds=yes ./${NAME}
+
+fs: CFLAGS += -fsanitize=thread
+fs: clean ${NAME}
+	@echo "$(GREEN)[✅] Build with Address Sanitizer complete!$(RESET)"
+
+.PHONY: all clean fclean re norm vg fs  

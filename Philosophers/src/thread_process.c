@@ -5,60 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nberthal <nberthal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 04:53:03 by nberthal          #+#    #+#             */
-/*   Updated: 2025/02/16 04:16:33 by nberthal         ###   ########.fr       */
+/*   Created: 2025/04/22 15:27:07 by nberthal          #+#    #+#             */
+/*   Updated: 2025/04/27 18:09:06 by nberthal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-static void	wait_for(t_table *table, long long time_to_wait)
-{
-	long long	start;
-	long long	last;
-
-	start = table->time_in_ms;
-	last = table->time_in_ms;
-	while (last - start < time_to_wait && table->end == false)
-		last = table->time_in_ms;
-}
-
-static void	take_fork_left_first(t_philo *philo)
+static int	take_fork(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_fork->lock);
-	if (philo->table->end == true)
+	if (check_if_end(philo))
 	{
 		pthread_mutex_unlock(&philo->left_fork->lock);
-		return ;
+		return (1);
 	}
-	printf("%lld %d has taken a fork\n", philo->table->time_in_ms, philo->id);
+	print_action(philo, TAKE, NOTHING);
+	if (philo->left_fork == philo->right_fork)
+	{
+		pthread_mutex_unlock(&philo->right_fork->lock);
+		usleep((philo->table->time_to_die * 1000) + 1000);
+		return (1);
+	}
 	pthread_mutex_lock(&philo->right_fork->lock);
-	if (philo->table->end == true)
+	if (check_if_end(philo))
 	{
-		pthread_mutex_unlock(&philo->right_fork->lock);
 		pthread_mutex_unlock(&philo->left_fork->lock);
-		return ;
-	}
-	printf("%lld %d has taken a fork\n", philo->table->time_in_ms, philo->id);
-}
-
-static void	take_fork_right_first(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->right_fork->lock);
-	if (philo->table->end == true)
-	{
 		pthread_mutex_unlock(&philo->right_fork->lock);
-		return ;
+		return (1);
 	}
-	printf("%lld %d has taken a fork\n", philo->table->time_in_ms, philo->id);
-	pthread_mutex_lock(&philo->left_fork->lock);
-	if (philo->table->end == true)
-	{
-		pthread_mutex_unlock(&philo->right_fork->lock);
-		pthread_mutex_unlock(&philo->left_fork->lock);
-		return ;
-	}
-	printf("%lld %d has taken a fork\n", philo->table->time_in_ms, philo->id);
+	print_action(philo, TAKE, NOTHING);
+	return (0);
 }
 
 static void	*philosophers_actions(void *arg)
@@ -66,46 +43,50 @@ static void	*philosophers_actions(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (philo->table->end == false)
+	if (philo->id % 2 == 0)
+		usleep(100);
+	while (1)
 	{
-		printf("%lld %d is thinking\n", philo->table->time_in_ms, philo->id);
-		if (philo->id % 2 == 0)
-			take_fork_right_first(philo);
-		if (philo->id % 2 == 1)
-			take_fork_left_first(philo);
-		printf("%lld %d is eating\n", philo->table->time_in_ms, philo->id);
-		philo->last_meal = philo->table->time_in_ms;
-		wait_for(philo->table, philo->table->time_to_eat);
-		pthread_mutex_unlock(&philo->right_fork->lock);
+		if (check_if_end(philo))
+			break ;
+		print_action(philo, THINK, NOTHING);
+		if (take_fork(philo))
+			break ;
+		if (check_if_end(philo))
+			break ;
+		print_action(philo, EAT, EATING);
 		pthread_mutex_unlock(&philo->left_fork->lock);
-		if (philo->table->end == true)
-			return (NULL);
-		printf("%lld %d is sleeping\n", philo->table->time_in_ms, philo->id);
-		wait_for(philo->table, philo->table->time_to_sleep);
+		pthread_mutex_unlock(&philo->right_fork->lock);
+		if (check_if_end(philo))
+			break ;
+		print_action(philo, SLEEP, SLEEPING);
 	}
 	return (NULL);
 }
 
-void	launch_threads_philo(t_table *table, t_philo **philosophers)
+int	launch_threads_philo(t_table *table, t_philo **philo)
 {
-	t_philo	*philo;
-	t_philo	*temp;
+	int	i;
 
-	philo = *philosophers;
-	temp = *philosophers;
-	while (philo)
+	i = 0;
+	while (philo && philo[i])
 	{
-		if (pthread_create(&philo->tread_id, NULL, philosophers_actions,
-				(void *)philo))
+		if (pthread_create(&philo[i]->tread_id, NULL, philosophers_actions,
+				(void *)philo[i]))
 		{
 			table->end = true;
-			while (temp != philo)
+			while (philo[--i])
 			{
-				pthread_join(temp->tread_id, NULL);
-				temp = temp->next;
+				if (pthread_join(philo[i]->tread_id, NULL))
+					ft_putstr_fd("Error joining thread\n", 2);
 			}
-			error_exit("Error creating thread\n", table, *philosophers);
+			clear_philosophers(philo, true);
+			destroy_mutex(table);
+			destroy_forks(table, table->nb_philo);
+			ft_putstr_fd("Error creating thread\n", 2);
+			return (1);
 		}
-		philo = philo->next;
+		i++;
 	}
+	return (0);
 }
