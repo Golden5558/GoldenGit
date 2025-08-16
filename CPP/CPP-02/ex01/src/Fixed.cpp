@@ -6,7 +6,7 @@
 /*   By: golden <golden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 14:51:13 by golden            #+#    #+#             */
-/*   Updated: 2025/08/16 19:11:26 by golden           ###   ########.fr       */
+/*   Updated: 2025/08/16 19:17:57 by golden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int		Fixed::getRawBits(void) const {
 void	Fixed::setRawBits(int const raw) {
 
 	this->_fixed_value = raw;	
-
 }
 
 int	Fixed::toInt(void) const {
