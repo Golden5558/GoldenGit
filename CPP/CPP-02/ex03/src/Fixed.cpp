@@ -6,7 +6,7 @@
 /*   By: golden <golden@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 14:51:13 by golden            #+#    #+#             */
-/*   Updated: 2025/08/18 16:47:40 by golden           ###   ########.fr       */
+/*   Updated: 2025/08/21 01:51:41 by golden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Fixed::Fixed() : _fixed_value(0) {
 	
 }
 
-Fixed::Fixed(Fixed const  & other) {
+Fixed::Fixed(Fixed const & other) {
 	
 	*this = other;
 }
@@ -78,7 +78,6 @@ float	Fixed::toFloat(void) const {
 
 Fixed & Fixed::min(Fixed & lhs, Fixed & rhs) {
 
-	std::cout << "The " << RED << __PRETTY_FUNCTION__ << RESET <<  " function is called, result : " << RED;
 	if (lhs.getRawBits() < rhs.getRawBits())
 		return lhs;
 	else
@@ -87,7 +86,6 @@ Fixed & Fixed::min(Fixed & lhs, Fixed & rhs) {
 
 Fixed const & Fixed::min(Fixed const & lhs, Fixed const & rhs) {
 
-	std::cout << "The " << RED << __PRETTY_FUNCTION__ << RESET <<  " function is called, result : " << RED;
 	if (lhs.getRawBits() < rhs.getRawBits())
 		return lhs;
 	else
@@ -96,7 +94,6 @@ Fixed const & Fixed::min(Fixed const & lhs, Fixed const & rhs) {
 
 Fixed & Fixed::max(Fixed & lhs, Fixed & rhs) {
 
-	std::cout << "The " << RED << __PRETTY_FUNCTION__ << RESET <<  " function is called, result : " << RED;
 	if (lhs.getRawBits() > rhs.getRawBits())
 		return lhs;
 	else
@@ -105,7 +102,6 @@ Fixed & Fixed::max(Fixed & lhs, Fixed & rhs) {
 
 Fixed const & Fixed::max(Fixed const & lhs, Fixed const & rhs) {
 
-	std::cout << "The " << RED << __PRETTY_FUNCTION__ << RESET <<  " function is called, result : " << RED;
 	if (lhs.getRawBits() > rhs.getRawBits())
 		return lhs;
 	else
@@ -120,9 +116,6 @@ Fixed const & Fixed::max(Fixed const & lhs, Fixed const & rhs) {
 
 bool Fixed::operator>(Fixed const & rhs) const {
 
-	std::cout << "The overload " << GREEN << __FUNCTION__ << RESET <<  " was called with " << GREEN;
-	std::cout << this->toFloat() << RESET << " and " << GREEN << rhs.toFloat() << RESET;
-	std::cout << ", result : " << GREEN << (this->toFloat() > rhs.toFloat())  << RESET << std::endl;	
 	if (this->_fixed_value > rhs._fixed_value)
 		return true;
 	return false;
@@ -130,9 +123,6 @@ bool Fixed::operator>(Fixed const & rhs) const {
 
 bool Fixed::operator<(Fixed const & rhs) const {
 
-	std::cout << "The overload " << GREEN << __FUNCTION__ << RESET <<  " was called with " << GREEN;
-	std::cout << this->toFloat() << RESET << " and " << GREEN << rhs.toFloat() << RESET;
-	std::cout << ", result : " << GREEN << (this->toFloat() < rhs.toFloat())  << RESET << std::endl;	
 	if (this->_fixed_value < rhs._fixed_value)
 		return true;
 	return false;
@@ -140,9 +130,6 @@ bool Fixed::operator<(Fixed const & rhs) const {
 
 bool Fixed::operator>=(Fixed const & rhs) const {
 
-	std::cout << "The overload " << GREEN << __FUNCTION__ << RESET <<  " was called with " << GREEN;
-	std::cout << this->toFloat() << RESET << " and " << GREEN << rhs.toFloat() << RESET;
-	std::cout << ", result : " << GREEN << (this->toFloat() >= rhs.toFloat())  << RESET << std::endl;	
 	if (this->_fixed_value >= rhs._fixed_value)
 		return true;
 	return false;
@@ -150,9 +137,6 @@ bool Fixed::operator>=(Fixed const & rhs) const {
 
 bool Fixed::operator<=(Fixed const & rhs) const {
 
-	std::cout << "The overload " << GREEN << __FUNCTION__ << RESET <<  " was called with " << GREEN;
-	std::cout << this->toFloat() << RESET << " and " << GREEN << rhs.toFloat() << RESET;
-	std::cout << ", result : " << GREEN << (this->toFloat() <= rhs.toFloat())  << RESET << std::endl;	
 	if (this->_fixed_value <= rhs._fixed_value)
 		return true;
 	return false;
@@ -160,9 +144,6 @@ bool Fixed::operator<=(Fixed const & rhs) const {
 
 bool Fixed::operator==(Fixed const & rhs) const {
 
-	std::cout << "The overload " << GREEN << __FUNCTION__ << RESET <<  " was called with " << GREEN;
-	std::cout << this->toFloat() << RESET << " and " << GREEN << rhs.toFloat() << RESET;
-	std::cout << ", result : " << GREEN << (this->toFloat() == rhs.toFloat())  << RESET << std::endl;	
 	if (this->_fixed_value == rhs._fixed_value)
 		return true;
 	return false;
@@ -170,9 +151,6 @@ bool Fixed::operator==(Fixed const & rhs) const {
 
 bool Fixed::operator!=(Fixed const & rhs) const {
 
-	std::cout << "The overload " << GREEN << __FUNCTION__ << RESET <<  " was called with " << GREEN;
-	std::cout << this->toFloat() << RESET << " and " << GREEN << rhs.toFloat() << RESET;
-	std::cout << ", result : " << GREEN << (this->toFloat() != rhs.toFloat())  << RESET << std::endl;	
 	if (this->_fixed_value != rhs._fixed_value)
 		return true;
 	return false;
