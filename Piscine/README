@@ -1,0 +1,17 @@
+ft_lock (touche F14) est l'outil pour vérouiller sa session, il a été paramétré pour delog les sessions automatiquement après 64 min d'inactivité. Vous pouvez utiliser la touche ECHAP pour delog manuellement après 32min d'inactivité.
+
+Vous pouvez désormais éditer le fichier /etc/hosts. Les modifications seront effacées à chaque connexion/déconnexion.\nVous pouvez utiliser $HOME/login.sh pour les rendre persistantes.
+
+SublimeText a été déconnecté du reseau pour éviter les popups intempestifs. Pour installer vos plugins, veuillez réactiver le réseau avec `flatpak override --user --share=network com.sublimetext.three`.
+
+Les naviguateurs sont automatiquement mis à jour chaque matin. Les IDEs sont automatiquement mis à jour chaque lundi. VirtualBox et Unity sont manuellement mis à jour 1 fois par ans. Les applications installées par ftpkg sont mises à jour en arrière-plan. Vous pouvez demander au bocal d'en ajouter d'autres si disponible sur https://flathub.org/
+
+Les données de /goinfre sont supprimées dès que le disque de l'iMacs est > 90%. Le disque de votre HOME n'est pas concerné.
+
+Vous pouvez utiliser la session local event@event sur demande du bocal/tuteurs. Les données de cette session sont supprimées au logout.
+
+Les raccourcis clavier pour lockscreen: F14 et pour logout: F15.
+
+Pour reset votre sessions: touch $HOME/.reset
+
+zsh est le shell par défaut avec le framework 'Oh My Zsh' ainsi que les plugins zsh-autosuggestions, zsh-syntax-highlighting et bash-insulter.

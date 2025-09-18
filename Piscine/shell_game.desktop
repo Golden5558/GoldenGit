@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=shell_game
+Comment=
+Exec=/usr/local/bin/shell_game
+Icon=/usr/share/42/icons/4lfr3d.png
+Terminal=true
+Type=Application
+Categories=Utility;Application;
