@@ -1,0 +1,8 @@
+Affiche / visuel carré 1080x1080
+
+Prompt:
+Affiche minimaliste en français, thème santé et confiance. Couleurs bleu/vert, fond clair. Icône cadenas stylisé dans un cercle, lignes connectées vers trois pictogrammes (patient, chercheur, hôpital). Titres courts: “Consentement souverain”, “Accès auditable”, “Recherche utile”. Ajoute la mention “Hacking Health Camp — Strasbourg” en petit en bas. Style flat design, propre, lisible, sans photo de personne. 
+
+Slogan:
+Partager en confiance, rester aux commandes.
+

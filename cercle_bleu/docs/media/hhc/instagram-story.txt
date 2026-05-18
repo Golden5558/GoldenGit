@@ -1,0 +1,14 @@
+Story 4 cartes (1080x1920)
+
+Carte 1 — Hook:
+Et si vos données de santé ne sortaient jamais de votre contrôle?
+
+Carte 2 — Problème:
+Partager pour la recherche, c’est souvent opaque et sans retour pour les patients.
+
+Carte 3 — Solution:
+Consentement souverain, révocable, accès auditable. Recherche utile, cadre éthique conforme.
+
+Carte 4 — Appel:
+On prototype en 50h au Hacking Health Camp à Strasbourg. Rejoins l’équipe!
+

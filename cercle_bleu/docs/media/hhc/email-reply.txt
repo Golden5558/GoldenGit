@@ -1,0 +1,24 @@
+Objet: Contenu média pour diffusion — Cercle Bleu (HHC)
+
+Bonjour,
+
+Merci pour votre message. Voici plusieurs formats prêts à diffuser pour présenter notre projet “Cercle Bleu”:
+
+- Vidéo face caméra 30s (script): docs/media/hhc/video-script-30s.md
+- Anecdote patient 20s (script): docs/media/hhc/anecdote-20s.md
+- Infographie “Cercle de confiance”: docs/media/hhc/infographie-cercle-de-confiance.md
+- Post LinkedIn: docs/media/hhc/linkedin-post.md
+- Story Instagram (4 cartes): docs/media/hhc/instagram-story.txt
+- Blurb newsletter: docs/media/hhc/newsletter-blurb.md
+- Storyboard démo GIF: docs/media/hhc/storyboard-demo-gif.md
+- Prompt visuel (affiche): docs/media/hhc/image-prompt.txt
+
+Message clé:
+Mettre les patients aux commandes du partage de leurs données: consentement explicite, révocable et auditable; cadre éthique conforme (RGPD, CNIL, HDS); recherche utile et transparente, avec restitution vulgarisée vers les patients.
+
+Nous serons ravis d’ajuster les formats si besoin. Merci pour la diffusion sur vos réseaux et média HHC.
+
+Bien à vous,
+
+Cercle Bleu
+

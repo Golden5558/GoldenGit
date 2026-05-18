@@ -1,0 +1,17 @@
+services:
+  postgres-test:
+    image: 'postgres:latest'
+    container_name: cerclebleu-postgres-test
+    environment:
+      POSTGRES_DB: cerclebleu_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cerclebleu_test"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
