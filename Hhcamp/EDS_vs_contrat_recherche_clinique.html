@@ -1,0 +1,162 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.vs-wrap { padding: 1rem 0; }
+.vs-header { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 1px; margin-bottom: 1px; }
+.vs-header-cell { padding: 12px 16px; font-size: 13px; font-weight: 500; }
+.col-label { background: transparent; }
+.col-eds { background: #1D9E75; color: #E1F5EE; border-radius: 8px 8px 0 0; text-align: center; }
+.col-contrat { background: #378ADD; color: #E6F1FB; border-radius: 8px 8px 0 0; text-align: center; }
+.col-name { font-size: 15px; font-weight: 500; display: block; }
+.col-sub { font-size: 11px; opacity: 0.85; display: block; margin-top: 2px; }
+.vs-row { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 1px; margin-bottom: 1px; }
+.vs-row:last-child { margin-bottom: 0; }
+.cell { padding: 12px 16px; font-size: 13px; line-height: 1.5; }
+.cell-label { background: var(--color-background-secondary); color: var(--color-text-secondary); font-size: 12px; font-weight: 500; display: flex; align-items: flex-start; padding-top: 14px; border-radius: 4px; }
+.cell-eds { background: #E1F5EE; color: #085041; border-radius: 4px; }
+.cell-contrat { background: #E6F1FB; color: #042C53; border-radius: 4px; }
+.cell-neutral-eds { background: var(--color-background-secondary); border-radius: 4px; color: var(--color-text-primary); border-left: 3px solid #1D9E75; }
+.cell-neutral-contrat { background: var(--color-background-secondary); border-radius: 4px; color: var(--color-text-primary); border-left: 3px solid #378ADD; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; margin-bottom: 4px; }
+.badge-green { background: #1D9E75; color: #E1F5EE; }
+.badge-blue { background: #378ADD; color: #E6F1FB; }
+.badge-warn { background: #BA7517; color: #FAEEDA; }
+.badge-red { background: #A32D2D; color: #FCEBEB; }
+.badge-neutral { background: #5F5E5A; color: #F1EFE8; }
+.reco-box { background: var(--color-background-secondary); border: 1.5px solid #1D9E75; border-radius: 10px; padding: 16px 20px; margin-top: 16px; }
+.reco-title { font-size: 13px; font-weight: 500; color: #0F6E56; margin-bottom: 8px; }
+.reco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.reco-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; padding: 10px 12px; }
+.reco-card-title { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px; }
+.reco-card-body { font-size: 12px; color: var(--color-text-primary); line-height: 1.5; }
+.section-title { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.05em; text-transform: uppercase; padding: 8px 0 4px; }
+</style>
+<div class="vs-wrap">
+
+<div class="vs-header">
+  <div class="vs-header-cell col-label"></div>
+  <div class="vs-header-cell col-eds">
+    <span class="col-name">EDS (Entrepôt de données de santé)</span>
+    <span class="col-sub">Architecture interne + accès chercheur direct</span>
+  </div>
+  <div class="vs-header-cell col-contrat">
+    <span class="col-name">Contrat de recherche clinique</span>
+    <span class="col-sub">Convention unique + protocole RIPH</span>
+  </div>
+</div>
+
+<div class="section-title" style="padding-left:4px">⚖ cadre juridique &amp; réglementaire</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Base légale</div>
+  <div class="cell cell-neutral-eds">Intérêt public (art. 9.2.j RGPD) ou consentement dynamique opt-in. Référentiel CNIL EDS obligatoire. Pas de CPP requis si données déjà collectées.</div>
+  <div class="cell cell-neutral-contrat">Consentement éclairé obligatoire (code santé publique). Double consentement : participation à la recherche + traitement des données (RGPD art. 6). CPP obligatoire pour les RIPH.</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Autorisation CNIL</div>
+  <div class="cell cell-eds"><span class="badge badge-green">Déclaration de conformité</span><br>Référentiel CNIL EDS suffisant. Pas d'autorisation au cas par cas si le périmètre est respecté.</div>
+  <div class="cell cell-contrat"><span class="badge badge-warn">Variable selon la RIPH</span><br>MR-001 (interventionnel) ou MR-003 (non-interventionnel) selon le type. Parfois autorisation spécifique CNIL au-delà des MR.</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Consentement patient</div>
+  <div class="cell cell-eds"><span class="badge badge-green">Opt-in granulaire</span><br>Par étude, par jeu de données, par durée. Révocable. Traçé sur blockchain = preuve immuable.</div>
+  <div class="cell cell-contrat"><span class="badge badge-warn">Opt-in binaire par protocole</span><br>Un consentement = un essai. Ré-consentement requis à chaque amendement de protocole. Papier ou e-consent.</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Données rétrospectives vs prospectives</div>
+  <div class="cell cell-eds"><span class="badge badge-green">Rétrospectif natif</span><br>Accès immédiat aux données déjà dans l'EDS. Études en vie réelle sans recrutement patient.</div>
+  <div class="cell cell-contrat"><span class="badge badge-blue">Prospectif uniquement</span><br>Données collectées au fil de l'étude. L'AAP DAtAE interdit les données prospectives dans les EDS publics.</div>
+</div>
+
+<div class="section-title" style="padding-left:4px; margin-top:8px">💶 modèle économique</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Coût de mise en place</div>
+  <div class="cell cell-eds">2 M€/an pendant 5 ans (phase développement), puis 3 M€/an (fonctionnement nominal) pour un EDS hospitalier de taille moyenne — estimation HDH 2023. Pour Mon Cercle Santé : infrastructure blockchain + API partenaires.</div>
+  <div class="cell cell-contrat">Variable : quelques milliers € (étude observationnelle) à plusieurs millions (essai multinational multisite). Convention unique fixe les coûts standardisés par acte (réévalués à la hausse en août 2024).</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Qui paie ?</div>
+  <div class="cell cell-eds"><span class="badge badge-green">Chercheur/labo paie l'accès</span><br>Tarification à la mise à disposition (en cours de standardisation — AP-HP, CHU Montpellier). Recherche publique : gratuit (HDH). Privé : redevance.</div>
+  <div class="cell cell-contrat"><span class="badge badge-blue">Promoteur paie tout</span><br>Promoteur (labo pharma, CRO, hôpital) finance : inclusion des patients, actes de recherche, rémunération investigateurs, surcoûts établissement.</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Récompense patient</div>
+  <div class="cell cell-eds"><span class="badge badge-green">Points prévention diabète</span><br>Mon Cercle Santé : points échangeables contre avantages thématiques (prévention, prise en charge). Engagement durable.</div>
+  <div class="cell cell-contrat"><span class="badge badge-neutral">Indemnisation forfaitaire</span><br>Remboursement frais ou indemnité forfaitaire par visite, fixée dans la convention unique. Ponctuel, non thématique.</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Scalabilité revenus</div>
+  <div class="cell cell-eds"><span class="badge badge-green">SaaS / API récurrent</span><br>Un même dataset peut être vendu/accédé par N chercheurs en parallèle. Modèle revenus récurrents à coût marginal faible.</div>
+  <div class="cell cell-contrat"><span class="badge badge-warn">Linéaire par protocole</span><br>Chaque nouveau contrat = nouvelle négociation, nouveau CPP, nouveau budget. Pas de levier d'échelle sur la donnée.</div>
+</div>
+
+<div class="section-title" style="padding-left:4px; margin-top:8px">🔬 qualité &amp; type de données pour le chercheur</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Nature des données</div>
+  <div class="cell cell-eds">Données de vie réelle (RWD) : longitudinales, continues, multicapteurs (CGM, glycémie, HbA1c, ordonnances). Reflètent le quotidien du patient diabétique.</div>
+  <div class="cell cell-contrat">Données de protocole : très contrôlées, standardisées, validées selon ICH E6. Biais de sélection (patients éligibles ≠ population réelle). Visites planifiées.</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Richesse / granularité</div>
+  <div class="cell cell-eds"><span class="badge badge-green">Haute granularité patient</span><br>Consentement par jeu de données : le chercheur sait exactement quelles variables sont disponibles et consenties. Données enrichies par le patient lui-même.</div>
+  <div class="cell cell-contrat"><span class="badge badge-blue">Granularité protocole</span><br>Définie a priori dans le CRF. Ce qui n'est pas dans le protocole n'existe pas. Changements = amendement CPP.</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Taille de cohorte accessible</div>
+  <div class="cell cell-eds"><span class="badge badge-green">Potentiel 5M patients FR</span><br>L'EDS croît avec la plateforme. Pas de plafond lié à un protocole. Requêtes sur cohortes existantes.</div>
+  <div class="cell cell-contrat"><span class="badge badge-warn">Limitée par recrutement</span><br>Cohorte = N patients recrutés sur durée déterminée. Compléter ou étendre = nouvel essai.</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Valeur scientifique</div>
+  <div class="cell cell-eds">Real World Evidence (RWE) : puissant pour études épidémiologiques, pharmaco-épidémiologie, IA médicale. Limite : pas randomisé → biais potentiels.</div>
+  <div class="cell cell-contrat">Gold standard scientifique (RCT) : causalité démontrée, niveau de preuve maximal pour AMM. Limite : coût, délais, biais de sélection.</div>
+</div>
+
+<div class="section-title" style="padding-left:4px; margin-top:8px">⏱ délais &amp; processus d'accès</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Délai d'accès aux données</div>
+  <div class="cell cell-eds"><span class="badge badge-green">Semaines (idéal)</span><br>Accès quasi-immédiat si l'EDS est constitué et le consentement en place. Objectif Mon Cercle Santé : API requête → données consenties disponibles sous 2-4 semaines.</div>
+  <div class="cell cell-contrat"><span class="badge badge-red">12-24 mois minimum</span><br>CPP : 45 jours. CNIL si hors MR : +60 jours. Négociation convention : 3-6 mois. Recrutement : 6-18 mois. Premier patient inclus ≈ 12 à 24 mois après l'idée.</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Complexité administrative</div>
+  <div class="cell cell-eds"><span class="badge badge-green">Faible (si EDS autorisé)</span><br>Déclaration de conformité CNIL une fois pour toutes. Contrat d'accès type. Pas de CPP par projet si données existantes.</div>
+  <div class="cell cell-contrat"><span class="badge badge-red">Très élevée</span><br>CPP, CNIL (MR ou autorisation spécifique), convention unique par site, budget investigateurs, assurance promoteur, monitoring, audit trail.</div>
+</div>
+
+<div class="vs-row">
+  <div class="cell cell-label">Flexibilité en cours d'étude</div>
+  <div class="cell cell-eds"><span class="badge badge-green">Haute</span><br>Nouvelles variables ? Nouveau consentement ajouté en temps réel. Élargissement de cohorte sans refaire de procédure.</div>
+  <div class="cell cell-contrat"><span class="badge badge-red">Très faible</span><br>Tout changement = amendement au protocole → CPP + CNIL + convention. Peut prendre 3-6 mois supplémentaires.</div>
+</div>
+
+<div class="reco-box">
+  <div class="reco-title">Recommandation pour Mon Cercle Santé — modèle hybride</div>
+  <p style="font-size: 13px; color: var(--color-text-primary); line-height: 1.6;">L'EDS est le socle stratégique : il capture la valeur longitudinale, scalable et récurrente. Le contrat de recherche clinique reste complémentaire pour les études prospectives interventionnelles à fort niveau de preuve. Les deux se renforcent — l'EDS nourrit l'hypothèse, l'essai clinique la valide.</p>
+  <div class="reco-grid">
+    <div class="reco-card">
+      <div class="reco-card-title" style="color: #0F6E56;">EDS en priorité pour…</div>
+      <div class="reco-card-body">Pharmaco-épidémiologie, RWE, IA médicale, études de cohorte diabète, accès multiple chercheurs, revenus récurrents, études rétrospectives. <strong>→ le business model principal.</strong></div>
+    </div>
+    <div class="reco-card">
+      <div class="reco-card-title" style="color: #185FA5;">Contrat clinique en complément pour…</div>
+      <div class="reco-card-body">Essais interventionnels (nouveau médicament, dispositif), études nécessitant RCT, dossier AMM. <strong>→ option premium sur cohorte identifiée via l'EDS.</strong></div>
+    </div>
+  </div>
+</div>
+
+</div>

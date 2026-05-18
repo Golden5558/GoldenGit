@@ -1,0 +1,177 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.script { padding: 1rem 0; display: flex; flex-direction: column; gap: 0; }
+.header-card { background: var(--color-background-secondary); border-radius: 10px; padding: 16px 20px; margin-bottom: 20px; }
+.title-main { font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.title-sub { font-size: 13px; color: var(--color-text-secondary); }
+.cast { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.cast-item { display: flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 6px; }
+.c-narrateur { background: #EEEDFE; }
+.c-patient { background: #FAEEDA; }
+.c-chercheur { background: #E1F5EE; }
+.cast-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.dot-n { background: #534AB7; }
+.dot-p { background: #BA7517; }
+.dot-ch { background: #1D9E75; }
+.cast-name { font-size: 12px; font-weight: 500; }
+.cast-n { color: #3C3489; }
+.cast-p { color: #633806; }
+.cast-ch { color: #085041; }
+.cast-role { font-size: 11px; color: var(--color-text-secondary); }
+.scene-header { display: flex; align-items: center; gap: 10px; padding: 10px 0 6px; border-top: 0.5px solid var(--color-border-tertiary); margin-top: 16px; }
+.scene-num { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; }
+.scene-time { font-size: 11px; background: var(--color-background-secondary); color: var(--color-text-secondary); padding: 2px 8px; border-radius: 10px; margin-left: auto; }
+.line { display: flex; gap: 0; margin: 6px 0; }
+.speaker { flex: 0 0 110px; padding: 10px 12px 10px 0; }
+.speaker-label { font-size: 11px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+.sp-n { color: #534AB7; }
+.sp-p { color: #BA7517; }
+.sp-ch { color: #1D9E75; }
+.speech { flex: 1; padding: 10px 14px; border-radius: 8px; font-size: 13px; line-height: 1.7; color: var(--color-text-primary); }
+.speech-n { background: #EEEDFE; border-left: 2px solid #534AB7; color: #26215C; }
+.speech-p { background: #FAEEDA; border-left: 2px solid #BA7517; color: #412402; }
+.speech-ch { background: #E1F5EE; border-left: 2px solid #1D9E75; color: #04342C; }
+.didascalie { font-size: 12px; color: var(--color-text-secondary); font-style: italic; padding: 4px 0 4px 110px; line-height: 1.5; }
+.stat-callout { display: inline; font-weight: 500; background: #FCEBEB; color: #791F1F; padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+.total-bar { background: var(--color-background-secondary); border-radius: 8px; padding: 12px 16px; margin-top: 20px; display: flex; align-items: center; gap: 12px; }
+.total-label { font-size: 12px; color: var(--color-text-secondary); }
+.total-time { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+.timing-blocks { display: flex; gap: 4px; flex: 1; }
+.tblock { height: 8px; border-radius: 4px; }
+.tb-n { background: #7F77DD; }
+.tb-p { background: #EF9F27; }
+.tb-ch { background: #1D9E75; }
+.tb-join { background: #378ADD; }
+.change-note { background: #E6F1FB; border: 0.5px solid #85B7EB; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: #042C53; line-height: 1.6; }
+</style>
+
+<div class="script">
+
+<div class="header-card">
+  <div class="title-main">Mon Cercle Santé — scène de pitch · v2</div>
+  <div class="title-sub">Pièce courte · 3 personnages · ~3 minutes · Hacking Health Camp 2026</div>
+  <div class="cast">
+    <div class="cast-item c-narrateur"><div class="cast-dot dot-n"></div><div><div class="cast-name cast-n">Le Narrateur</div><div class="cast-role">Voix off · neutre, posé</div></div></div>
+    <div class="cast-item c-patient"><div class="cast-dot dot-p"></div><div><div class="cast-name cast-p">Marc · 54 ans</div><div class="cast-role">Patient · DT2 depuis 8 ans · artisan plombier</div></div></div>
+    <div class="cast-item c-chercheur"><div class="cast-dot dot-ch"></div><div><div class="cast-name cast-ch">Dr. Leclerc</div><div class="cast-role">Diabétologue · CHU Saint-Étienne</div></div></div>
+  </div>
+</div>
+
+<div class="change-note">
+  Choix éditorial : les stats restent chez le Dr. Leclerc, pas chez le narrateur. Un chercheur qui vit "20% d'échec" comme une menace personnelle est beaucoup plus percutant qu'un narrateur qui la récite. Le narrateur pose le contexte humain — les chiffres appartiennent à celui qui souffre de les vivre.
+</div>
+
+<div class="didascalie" style="padding-left:0; padding-top:0;">Mise en scène : deux espaces distincts éclairés séparément. Marc côté jardin, son téléphone à la main. Le Dr. Leclerc côté cour, devant un écran imaginaire. Le Narrateur au centre, légèrement en retrait. Les deux personnages ne se voient pas encore.</div>
+
+<div class="scene-header">
+  <div class="scene-num">Scène 1 — introduction</div>
+  <div class="scene-time">0:00 – 0:25</div>
+</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-n">Narrateur</div></div>
+  <div class="speech speech-n">En France, cinq millions trois cent mille personnes vivent avec le diabète. Chaque jour, ils gèrent leurs glycémies, leurs traitements, leurs angoisses. Parmi eux, Marc. Cinquante-quatre ans, plombier à Saint-Étienne. Diabétique de type 2 depuis huit ans. Quelqu'un qui a l'habitude de régler les problèmes des autres... mais qui ne sait pas comment régler le sien.</div>
+</div>
+<div class="didascalie">Le Narrateur se tourne vers Marc. Lumière sur lui.</div>
+
+<div class="scene-header">
+  <div class="scene-num">Scène 2 — le problème de Marc</div>
+  <div class="scene-time">0:25 – 1:10</div>
+</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-p">Marc</div></div>
+  <div class="speech speech-p">Mon médecin m'a dit qu'il y avait des nouveaux traitements en test. Que des équipes cherchaient des gens comme moi. Alors j'ai cherché.</div>
+</div>
+<div class="didascalie">Il sort son téléphone. Il tape. Son visage passe de la concentration à la perplexité.</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-p">Marc</div></div>
+  <div class="speech speech-p">J'ai tapé "essai clinique diabète". J'ai trouvé un site américain... en anglais. Ensuite un truc qui s'appelle le CTIS — j'ai jamais entendu ce mot. Puis ClinicalTrials.gov — des centaines de résultats, des critères médicaux que je comprends pas, des acronymes. SGLT2 inhibitor. HbA1c threshold. Inclusion criteria.</div>
+</div>
+<div class="didascalie">Il pose le téléphone sur sa cuisse, découragé.</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-p">Marc</div></div>
+  <div class="speech speech-p">Moi je suis plombier. Je lis des plans, pas des protocoles médicaux en anglais. J'ai cherché une heure. Rien. Personne pour me dire simplement : Marc, toi, avec ton profil, aujourd'hui — tu peux participer à quelque chose.</div>
+</div>
+<div class="didascalie">Il lâche un soupir court. Lumière réduite côté Marc. Lumière sur le Dr. Leclerc.</div>
+
+<div class="scene-header">
+  <div class="scene-num">Scène 3 — le problème du Dr. Leclerc</div>
+  <div class="scene-time">1:10 – 1:55</div>
+</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-ch">Dr. Leclerc</div></div>
+  <div class="speech speech-ch">Deux ans. Notre essai est ouvert depuis deux ans. On cherche des patients diabétiques de type 2, traités par Metformine, avec une HbA1c entre 7,5 et 9. C'est un profil banal. Il y en a des milliers dans la région.</div>
+</div>
+<div class="didascalie">Il fixe son écran. Frustration contenue.</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-ch">Dr. Leclerc</div></div>
+  <div class="speech speech-ch">Mais ils n'arrivent pas. On publie sur les registres officiels — personne ne les lit. Nos collègues généralistes sont débordés. Et les patients ? Ils cherchent sur internet, ils tombent sur nos protocoles en anglais, et ils abandonnent. <span class="stat-callout">Vingt pour cent des essais cliniques échouent faute de patients.</span> Vingt pour cent.</div>
+</div>
+<div class="didascalie">Il marque une pause. Sa voix baisse légèrement.</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-ch">Dr. Leclerc</div></div>
+  <div class="speech speech-ch">Le mien est en train de devenir une de ces statistiques. Chaque semaine qui passe, c'est du budget qui brûle. Et si on ne trouve pas de patients dans les prochains mois, des années de travail, des données précieuses, un traitement qui aurait pu changer la vie de gens comme Marc — tout ça disparaît. Non pas parce que ça ne marchait pas. Parce qu'on n'a pas réussi à se trouver.</div>
+</div>
+<div class="didascalie">Silence. Les deux personnages sont dans leur espace, séparés. Lumière sur les deux simultanément. Le Narrateur revient au centre.</div>
+
+<div class="scene-header">
+  <div class="scene-num">Scène 4 — la solution</div>
+  <div class="scene-time">1:55 – 2:45</div>
+</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-n">Narrateur</div></div>
+  <div class="speech speech-n">Deux personnes. Même ville. Même pathologie. Le même besoin, face à face — séparés par un mur de complexité administrative. Ce mur n'a pas de raison d'être. Alors on l'a fait tomber.</div>
+</div>
+<div class="didascalie">Courte pause. Le Narrateur avance d'un pas.</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-n">Narrateur</div></div>
+  <div class="speech speech-n">Mon Cercle Santé. Marc remplit son profil médical en cinq minutes — son type de diabète, son traitement, sa localisation. Notre algorithme compare son profil aux critères des essais ouverts en France. Et lui présente, en français, les essais auxquels il correspond vraiment. Il candidate en un clic. Le Dr. Leclerc reçoit sa demande directement.</div>
+</div>
+<div class="didascalie">Marc reprend son téléphone. Le Dr. Leclerc se redresse vers son écran. Ils se tournent l'un vers l'autre pour la première fois.</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-p">Marc</div></div>
+  <div class="speech speech-p"><em>(lisant, incrédule)</em> "Essai clinique au CHU de Saint-Étienne. Diabète type 2. Votre profil correspond. Distance : quatre kilomètres."</div>
+</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-ch">Dr. Leclerc</div></div>
+  <div class="speech speech-ch"><em>(lisant, soulagé)</em> "Nouvelle candidature. Marc B., 54 ans. Profil pré-qualifié. HbA1c 8,1%. Traitement : Metformine."</div>
+</div>
+<div class="didascalie">Ils se regardent. Ils ne se rejoignent pas — mais ils se voient enfin.</div>
+
+<div class="scene-header">
+  <div class="scene-num">Scène 5 — conclusion</div>
+  <div class="scene-time">2:45 – 3:00</div>
+</div>
+
+<div class="line">
+  <div class="speaker"><div class="speaker-label sp-n">Narrateur</div></div>
+  <div class="speech speech-n">Gratuit pour Marc. Financé par les laboratoires qui ont besoin de patients. Spécialisé diabète. Ancré en France. Parce que cinq millions de patients qui cherchent et des centaines d'essais qui attendent — ce n'est pas un problème de volonté. C'est un problème de connexion. Mon Cercle Santé fait la connexion.</div>
+</div>
+<div class="didascalie">Les trois personnages se figent. Lumière finale sur Marc et le Dr. Leclerc qui se font face. Noir.</div>
+
+<div class="total-bar">
+  <div class="total-label">Durée totale estimée</div>
+  <div class="total-time">~3 min</div>
+  <div class="timing-blocks">
+    <div class="tblock tb-n" style="flex:1; opacity:0.7;"></div>
+    <div class="tblock tb-p" style="flex:2.5;"></div>
+    <div class="tblock tb-ch" style="flex:2.5;"></div>
+    <div class="tblock tb-join" style="flex:2.5;"></div>
+    <div class="tblock tb-n" style="flex:0.5; opacity:0.7;"></div>
+  </div>
+  <div style="font-size:11px; color:var(--color-text-secondary);">Narr. · Marc · Chercheur · Solution · Fin</div>
+</div>
+
+</div>

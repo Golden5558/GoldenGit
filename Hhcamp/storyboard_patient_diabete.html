@@ -1,0 +1,204 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.sb { padding: 1rem 0; }
+
+.patient-bar { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: var(--color-background-secondary); border-radius: 10px; margin-bottom: 24px; }
+.avatar { width: 44px; height: 44px; border-radius: 50%; background: #B5D4F4; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 500; color: #042C53; flex-shrink: 0; }
+.patient-info { flex: 1; }
+.patient-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.patient-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+.patient-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.ptag { font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+.ptag-blue { background: #E6F1FB; color: #042C53; }
+.ptag-amber { background: #FAEEDA; color: #412402; }
+.ptag-red { background: #FCEBEB; color: #791F1F; }
+
+.curve-wrap { position: relative; margin-bottom: 8px; }
+
+.steps-grid { display: grid; gap: 12px; }
+.step { border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: 14px 16px; position: relative; }
+.step-pos { border-left: 3px solid #1D9E75; }
+.step-neg { border-left: 3px solid #E24B4A; }
+.step-pivot { border-left: 3px solid #378ADD; border-width: 2px; }
+.step-num { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.step-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-pos { background: #1D9E75; }
+.dot-neg { background: #E24B4A; }
+.dot-pivot { background: #378ADD; }
+.step-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.step-time { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 6px; }
+.step-desc { font-size: 13px; color: var(--color-text-primary); line-height: 1.6; }
+.step-emotion { font-size: 12px; margin-top: 8px; padding: 6px 10px; border-radius: 6px; line-height: 1.4; }
+.emotion-neg { background: #FCEBEB; color: #791F1F; }
+.emotion-pos { background: #E1F5EE; color: #085041; }
+.emotion-neutral { background: #E6F1FB; color: #042C53; }
+.step-badge { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; margin-top: 6px; }
+.badge-old { background: #D3D1C7; color: #2C2C2A; }
+.badge-new { background: #9FE1CB; color: #04342C; }
+
+.legend { display: flex; gap: 16px; font-size: 12px; color: var(--color-text-secondary); margin-top: 16px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+.conclusion { background: var(--color-background-secondary); border-radius: 10px; padding: 16px 18px; margin-top: 16px; border: 1.5px solid #1D9E75; }
+.conclusion-title { font-size: 13px; font-weight: 500; color: #085041; margin-bottom: 8px; }
+.conclusion-body { font-size: 13px; color: var(--color-text-primary); line-height: 1.65; }
+</style>
+
+<div class="sb">
+
+<div class="patient-bar">
+  <div class="avatar">MH</div>
+  <div class="patient-info">
+    <div class="patient-name">Marie, 52 ans — Saint-Étienne</div>
+    <div class="patient-sub">Diabète type 2 depuis 8 ans · Secrétaire médicale · Traitement : Metformine + Jardiance</div>
+    <div class="patient-tags">
+      <span class="ptag ptag-blue">HbA1c : 8,2%</span>
+      <span class="ptag ptag-amber">Légère surcharge pondérale</span>
+      <span class="ptag ptag-red">Complications débutantes : rétinopathie grade 1</span>
+    </div>
+  </div>
+</div>
+
+<svg width="100%" viewBox="0 0 680 110">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <text class="ts" x="30" y="18">Moral de Marie</text>
+  <text class="ts" x="30" y="98">Bas</text>
+  <text class="ts" x="30" y="28">Haut</text>
+  <line x1="68" y1="90" x2="660" y2="90" stroke="var(--b)" stroke-width="0.5"/>
+  <line x1="68" y1="20" x2="68" y2="90" stroke="var(--b)" stroke-width="0.5"/>
+  <path fill="none" stroke="#E24B4A" stroke-width="2" d="
+    M 84 82
+    C 110 78, 130 80, 155 75
+    C 170 72, 175 68, 195 52
+    C 215 36, 230 34, 252 30
+    C 272 28, 285 42, 310 72
+    C 325 82, 335 85, 355 80
+    C 378 72, 388 60, 410 45
+    C 428 34, 440 28, 462 24
+    C 484 22, 496 35, 520 42
+    C 540 48, 552 40, 580 28
+    C 598 20, 620 22, 645 26
+  "/>
+  <circle cx="84"  cy="82" r="4" fill="#888780"/>
+  <circle cx="155" cy="75" r="4" fill="#E24B4A"/>
+  <circle cx="252" cy="30" r="5" fill="#378ADD"/>
+  <circle cx="310" cy="72" r="4" fill="#E24B4A"/>
+  <circle cx="410" cy="45" r="4" fill="#1D9E75"/>
+  <circle cx="462" cy="24" r="5" fill="#378ADD"/>
+  <circle cx="520" cy="42" r="4" fill="#1D9E75"/>
+  <circle cx="580" cy="28" r="4" fill="#1D9E75"/>
+  <circle cx="645" cy="26" r="5" fill="#1D9E75"/>
+  <text class="ts" x="80"  y="106" text-anchor="middle">Matin</text>
+  <text class="ts" x="252" y="106" text-anchor="middle">10h</text>
+  <text class="ts" x="410" y="106" text-anchor="middle">14h</text>
+  <text class="ts" x="580" y="106" text-anchor="middle">18h</text>
+  <text class="ts" x="645" y="106" text-anchor="middle">Soir</text>
+</svg>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#888780"></div> Neutre</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div> Point de friction (sans plateforme)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#378ADD"></div> Moment clé</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div> Point positif (avec plateforme)</div>
+</div>
+
+<div style="margin-top:20px; margin-bottom:10px; font-size:11px; font-weight:500; color:var(--color-text-secondary); letter-spacing:0.06em; text-transform:uppercase;">Étapes de la journée</div>
+
+<div class="steps-grid">
+
+  <div class="step step-neg">
+    <div class="step-num"><div class="step-dot dot-neg"></div> Étape 1 · 7h30 · Réveil</div>
+    <div class="step-title">Mesure de la glycémie à jeun</div>
+    <div class="step-time">Domicile — avant le petit-déjeuner</div>
+    <div class="step-desc">Marie prend sa glycémie. 1,82 g/L. Au-dessus de sa cible. Elle note le chiffre dans son carnet papier comme elle le fait depuis 8 ans. Elle sait que son HbA1c est encore trop haute depuis le dernier bilan. Son diabétologue lui a dit qu'il "faudra revoir le traitement" mais le prochain rendez-vous est dans 3 mois.</div>
+    <div class="step-emotion emotion-neg">"Je me sens seule avec mes chiffres. Je note, mais rien ne change vraiment."</div>
+    <span class="step-badge badge-old">Sans plateforme — frustration chronique</span>
+  </div>
+
+  <div class="step step-neg">
+    <div class="step-num"><div class="step-dot dot-neg"></div> Étape 2 · 9h15 · Au travail</div>
+    <div class="step-title">Recherche d'informations sur les nouveaux traitements</div>
+    <div class="step-time">Bureau — entre deux tâches</div>
+    <div class="step-desc">Marie a entendu parler d'un "nouveau médicament pour le diabète" à la radio. Elle cherche sur Google pendant 20 minutes. Elle tombe sur un article de vulgarisation vague, puis sur ClinicalTrials.gov — incompréhensible pour elle. Elle trouve "diabète type 2 essai clinique France" mais les résultats sont en anglais, sans filtre géographique, avec des critères médicaux qu'elle ne comprend pas.</div>
+    <div class="step-emotion emotion-neg">"Ces sites ne sont pas faits pour moi. Je ne sais pas si je suis 'éligible' à quoi que ce soit."</div>
+    <span class="step-badge badge-old">Sans plateforme — mur d'incompréhension</span>
+  </div>
+
+  <div class="step step-pivot">
+    <div class="step-num"><div class="step-dot dot-pivot"></div> Étape 3 · 10h00 · Moment clé — découverte</div>
+    <div class="step-title">Marie trouve Mon Cercle Santé via un article de la Fédération des Diabétiques</div>
+    <div class="step-time">Bureau / smartphone</div>
+    <div class="step-desc">Un email de la Fédération Française des Diabétiques — dont Marie est adhérente depuis 3 ans — mentionne une nouvelle plateforme. "Trouvez un essai clinique adapté à votre diabète, en 5 minutes." Elle clique par curiosité, sans grande conviction.</div>
+    <div class="step-emotion emotion-neutral">"Je vais voir, mais je n'y crois pas trop. Encore un truc compliqué."</div>
+    <span class="step-badge badge-new">Avec plateforme — point d'entrée naturel via partenaire associatif</span>
+  </div>
+
+  <div class="step step-neg">
+    <div class="step-num"><div class="step-dot dot-neg"></div> Étape 4 · 10h10 · Friction d'inscription</div>
+    <div class="step-title">Remplissage du profil médical</div>
+    <div class="step-time">Smartphone — interface plateforme</div>
+    <div class="step-desc">Marie doit remplir son profil : type de diabète, HbA1c, traitements, comorbidités, localisation. Elle hésite sur certaines questions ("qu'est-ce que SGLT2 ?" — c'est le Jardiance qu'elle prend sans connaître la classe). Elle doit aller chercher son ordonnance pour recopier les noms exacts. Ça lui prend 12 minutes au lieu des "5 minutes" annoncées.</div>
+    <div class="step-emotion emotion-neg">"Le vocabulaire médical me perd. Pourquoi ne pas me demander juste le nom de mes médicaments ?"</div>
+    <span class="step-badge badge-old">Friction réelle — à corriger dans le produit (mapping nom commercial → classe)</span>
+  </div>
+
+  <div class="step step-pivot">
+    <div class="step-num"><div class="step-dot dot-pivot"></div> Étape 5 · 10h22 · Moment clé — résultats</div>
+    <div class="step-title">Affichage des essais cliniques matchés</div>
+    <div class="step-time">Smartphone — résultats de matching</div>
+    <div class="step-desc">La plateforme affiche 3 essais cliniques ouverts correspondant à son profil, dans un rayon de 80 km de Saint-Étienne. L'un est au CHU de Saint-Étienne (5 km), l'autre à Lyon (60 km). Chaque essai est présenté en langage clair : objectif, durée, ce qu'on lui demandera, les avantages potentiels. Elle comprend tout sans chercher un dictionnaire.</div>
+    <div class="step-emotion emotion-pos">"Oh. Il y en a un juste au CHU d'à côté. Et c'est écrit en français normal."</div>
+    <span class="step-badge badge-new">Avec plateforme — effet "ah, ça existe pour moi !"</span>
+  </div>
+
+  <div class="step step-neg">
+    <div class="step-num"><div class="step-dot dot-neg"></div> Étape 6 · 12h45 · Déjeuner — doute</div>
+    <div class="step-title">Marie en parle à son collègue — et doute</div>
+    <div class="step-time">Cafétéria du cabinet médical</div>
+    <div class="step-desc">Marie raconte sa découverte à un collègue médecin. Il lui dit : "Attention aux essais cliniques, t'es un cobaye." Elle rentre dans un moment de doute. Elle se souvient aussi qu'elle n'en a pas encore parlé à son médecin traitant ni à son diabétologue. Et si c'était une mauvaise idée ? Et si elle ne comprenait pas les risques ?</div>
+    <div class="step-emotion emotion-neg">"Et si c'est dangereux ? Je n'ai personne pour me dire si c'est fait pour moi."</div>
+    <span class="step-badge badge-old">Friction — l'absence du médecin dans la boucle crée de l'insécurité</span>
+  </div>
+
+  <div class="step step-pos">
+    <div class="step-num"><div class="step-dot dot-pos"></div> Étape 7 · 14h00 · Après-midi</div>
+    <div class="step-title">Elle envoie sa candidature à l'investigateur</div>
+    <div class="step-time">Bureau — via la plateforme</div>
+    <div class="step-desc">Revenue à son bureau, Marie choisit l'essai du CHU de Saint-Étienne. Elle clique "Je suis intéressée". La plateforme lui confirme que l'investigateur recevra sa demande et la recontactera sous 5 jours ouvrés pour un entretien de pré-screening. Elle reçoit un email de confirmation avec un récapitulatif de l'essai en PDF — qu'elle imprime pour le montrer à son médecin traitant.</div>
+    <div class="step-emotion emotion-pos">"J'ai fait quelque chose. Pour la première fois, j'ai l'impression d'agir sur ma maladie."</div>
+    <span class="step-badge badge-new">Avec plateforme — sentiment d'empowerment</span>
+  </div>
+
+  <div class="step step-pos">
+    <div class="step-num"><div class="step-dot dot-pos"></div> Étape 8 · 18h30 · Soir — consultation médecin</div>
+    <div class="step-title">Elle en parle à son médecin traitant lors d'un rdv déjà prévu</div>
+    <div class="step-time">Cabinet médical — consultation de suivi diabète</div>
+    <div class="step-desc">Marie montre le PDF à son médecin. Il lit les critères de l'essai, consulte le dossier de Marie, et confirme qu'elle correspond bien au profil recherché. Il apprécie d'avoir l'information structurée. Il rédige un courrier court pour l'investigateur. Marie repart avec un sentiment de légitimité : "Mon médecin dit que c'est sérieux."</div>
+    <div class="step-emotion emotion-pos">"Mon médecin est dans la boucle maintenant. Je ne suis plus seule."</div>
+    <span class="step-badge badge-new">Avec plateforme — le médecin valide a posteriori, réduit l'anxiété</span>
+  </div>
+
+  <div class="step step-pos">
+    <div class="step-num"><div class="step-dot dot-pos"></div> Étape 9 · 20h00 · Soirée</div>
+    <div class="step-title">Notification — l'investigateur a accusé réception</div>
+    <div class="step-time">Domicile — smartphone</div>
+    <div class="step-desc">Marie reçoit une notification : l'équipe du CHU a bien reçu sa candidature et la recontactera en début de semaine prochaine. Elle voit aussi dans son profil qu'elle a "contribué à la recherche sur le diabète". Un petit message lui explique comment ses données seront utilisées et ses droits. Elle se sent respectée.</div>
+    <div class="step-emotion emotion-pos">"Je sais ce qui va se passer. Je suis pas dans le flou."</div>
+    <span class="step-badge badge-new">Avec plateforme — transparence et suivi en temps réel</span>
+  </div>
+
+</div>
+
+<div class="conclusion">
+  <div class="conclusion-title">Ce que ce storyboard démontre pour le pitch</div>
+  <div class="conclusion-body">Marie existe. Elle est 5,3 millions en France. Elle veut participer à la recherche mais chaque étape sans plateforme est un mur : jargon médical, sites incompréhensibles, isolation face à ses chiffres, peur de "être un cobaye". Mon Cercle Santé transforme trois moments clés : la découverte (partenariat associatif), la compréhension (langage clair + matching géolocalisé), et l'action (candidature en un clic + traçabilité). La friction identifiée à l'étape 4 (vocabulaire médical) est un bug produit à corriger — pas un défaut du concept. Et l'étape 6 (le doute) pointe vers une feature optionnelle à haute valeur : une mention claire "à valider avec votre médecin" dès l'affichage des résultats.</div>
+</div>
+
+</div>
